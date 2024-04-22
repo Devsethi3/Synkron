@@ -268,7 +268,7 @@ const HomePage = () => {
                       className="whitespace-nowrap w-full mt-4"
                     >
                       {card.planType === PRICING_PLANS.proplan
-                        ? "Go Pro"
+                        ? "✨ Go Pro"
                         : "Get Started"}
                     </Button>
                   </CardContent>
