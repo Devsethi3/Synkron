@@ -6,7 +6,18 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormSchema } from "@/lib/types";
-import { Form } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { TbLoader2 } from "react-icons/tb";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -30,7 +41,59 @@ const LoginPage = () => {
         }}
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full sm:justify-center sm:w-[400px] space-y-6 flex flex-col"
-      ></form>
+      >
+        <Link href="/" className="flex w-full gap-2 justify-center items-center">
+          <span className="font-semibold text-3xl">SYNKRON</span>
+        </Link>
+        <FormDescription className="text-foreground/60">
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laudantium,
+          veniam ad! Ut iste, cum obcaecati adipisci sit expedita consectetur
+          quasi.
+        </FormDescription>
+        <FormField
+          disabled={isLoading}
+          control={form.control}
+          name="email"
+          render={(field) => (
+            <FormItem>
+              <FormControl>
+                <Input type="email" placeholder="abc@gmail.com" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          disabled={isLoading}
+          control={form.control}
+          name="password"
+          render={(field) => (
+            <FormItem>
+              <FormControl>
+                <Input type="password" placeholder="Password" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        {submitError && <FormMessage>{submitError}</FormMessage>}
+        <Button
+          type="submit"
+          className="w-full p-6"
+        //   size="lg"
+          disabled={isLoading}
+        >
+          {!isLoading ? (
+            "Login"
+          ) : (
+            <TbLoader2 className="h-5 w-5 animate-spin" />
+          )}
+        </Button>
+        <span className="self-container flex items-center gap-4">
+            Don't have an account?
+            <Link href="/signup" className="hover:underline hover:text-primary">
+                Sign Up
+            </Link>
+        </span>
+      </form>
     </Form>
   );
 };

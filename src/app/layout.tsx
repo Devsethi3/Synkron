@@ -3,6 +3,7 @@ import { Lexend } from "next/font/google";
 import "./globals.css";
 import db from "@/lib/supabase/db";
 import { ThemeProvider } from "@/providers/NextThemeProvider";
+import { twMerge } from "tailwind-merge";
 
 const font = Lexend({ subsets: ["latin"] });
 
@@ -20,7 +21,7 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={font.className}>
+      <body className={twMerge("bg-background", font.className)}>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
