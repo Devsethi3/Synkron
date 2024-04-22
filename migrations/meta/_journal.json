@@ -1,0 +1,34 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1713683306592,
+      "tag": "0000_lumpy_black_widow",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1713701618129,
+      "tag": "0001_melodic_dagger",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1713701996372,
+      "tag": "0002_lame_morlun",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1713712382894,
+      "tag": "0003_mature_franklin_richards",
+      "breakpoints": true
+    }
+  ]
+}
