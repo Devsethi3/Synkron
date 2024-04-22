@@ -11,15 +11,17 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { CardContent, CardDescription, CardTitle } from "@/components/ui/card";
 import Diamond from "../../../public/icons/diamond.svg";
 import CheckIcon from "../../../public/icons/check.svg";
+import Header from "@/components/landingPage/Header";
 
 const HomePage = () => {
   return (
     <>
-      <div className="px-4 py-10 w-full min-h-screen">
+      <Header />
+      <div className="px-4 py-24 w-full min-h-screen">
         <section className="flex items-center flex-col justify-center">
           <TitleSection
             pill="✨ Your Workspace, Perfected"
-            title="All-In-One Collaboration and Productivity"
+            title="All-In-One Collaboration and Productivity Platform"
           />
           <div
             className="bg-white
@@ -30,7 +32,7 @@ const HomePage = () => {
           from-primary
           to-brand-primaryPurple
           sm:w-[300px]
-          opacity-70
+          opacity-60
           hover:opacity-90
           transition
           "
@@ -41,7 +43,7 @@ const HomePage = () => {
             p-6
             text-xl
             bg-background
-            dark:text-white text-black hover:text-white dark:hover:text-white
+            dark:text-white text-black hover:text-black dark:hover:text-white
             "
             >
               Get Synkron Free
@@ -264,9 +266,7 @@ const HomePage = () => {
                     <p className="dark:text-washed-purple-800">
                       {card.description}
                     </p>
-                    <Button
-                      className="whitespace-nowrap w-full mt-4"
-                    >
+                    <Button className="whitespace-nowrap w-full mt-4">
                       {card.planType === PRICING_PLANS.proplan
                         ? "✨ Go Pro"
                         : "Get Started"}

@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { TbLoader2 } from "react-icons/tb";
+import { actionLoginUser } from "@/lib/server-actions/authAction";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -29,9 +30,17 @@ const LoginPage = () => {
   });
 
   const isLoading = form.formState.isSubmitting;
+
   const onSubmit: SubmitHandler<z.infer<typeof FormSchema>> = async (
     formData
-  ) => {};
+  ) => {
+    const { error } = await actionLoginUser(formData);
+    if (error) {
+      form.reset();
+      setSubmitError(error.message);
+    }
+    router.replace("/dashboard");
+  };
 
   return (
     <Form {...form}>
@@ -40,9 +49,12 @@ const LoginPage = () => {
           if (submitError) setSubmitError("");
         }}
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full sm:justify-center sm:w-[400px] space-y-6 flex flex-col"
+        className="w-full sm:justify-center sm:w-[500px] space-y-6 flex flex-col"
       >
-        <Link href="/" className="flex w-full gap-2 justify-center items-center">
+        <Link
+          href="/"
+          className="flex w-full gap-2 justify-center items-center"
+        >
           <span className="font-semibold text-3xl">SYNKRON</span>
         </Link>
         <FormDescription className="text-foreground/60">
@@ -78,7 +90,7 @@ const LoginPage = () => {
         <Button
           type="submit"
           className="w-full p-6"
-        //   size="lg"
+          //   size="lg"
           disabled={isLoading}
         >
           {!isLoading ? (
@@ -87,11 +99,11 @@ const LoginPage = () => {
             <TbLoader2 className="h-5 w-5 animate-spin" />
           )}
         </Button>
-        <span className="self-container flex items-center gap-4">
-            Don't have an account?
-            <Link href="/signup" className="hover:underline hover:text-primary">
-                Sign Up
-            </Link>
+        <span className="self-container flex items-center gap-3">
+          Don't have an account?
+          <Link href="/signup" className="hover:underline hover:text-primary">
+            Sign Up
+          </Link>
         </span>
       </form>
     </Form>
