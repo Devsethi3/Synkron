@@ -66,7 +66,7 @@ const LoginPage = () => {
           disabled={isLoading}
           control={form.control}
           name="email"
-          render={(field) => (
+          render={({ field }) => (
             <FormItem>
               <FormControl>
                 <Input type="email" placeholder="abc@gmail.com" {...field} />
@@ -78,7 +78,7 @@ const LoginPage = () => {
           disabled={isLoading}
           control={form.control}
           name="password"
-          render={(field) => (
+          render={({ field }) => (
             <FormItem>
               <FormControl>
                 <Input type="password" placeholder="Password" {...field} />
@@ -91,7 +91,7 @@ const LoginPage = () => {
           type="submit"
           className="w-full p-6"
           //   size="lg"
-        disabled={isLoading}
+          disabled={isLoading}
         >
           {!isLoading ? (
             "Login"

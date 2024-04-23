@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 const routes = [
   { title: "Features", href: "#features" },
@@ -204,11 +205,12 @@ const Header = () => {
         </NavigationMenu>
         <aside
           className="flex
-        w-full
-        gap-8
-        justify-end
-      "
+          w-full
+          gap-8
+          justify-end
+          "
         >
+          <ThemeSwitcher />
           <Link href="/login">
             <Button className="text-sm hidden sm:block">Login</Button>
           </Link>
