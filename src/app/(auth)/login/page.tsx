@@ -91,7 +91,7 @@ const LoginPage = () => {
           type="submit"
           className="w-full p-6"
           //   size="lg"
-          disabled={isLoading}
+        disabled={isLoading}
         >
           {!isLoading ? (
             "Login"
@@ -101,7 +101,7 @@ const LoginPage = () => {
         </Button>
         <span className="self-container flex items-center gap-3">
           Don't have an account?
-          <Link href="/signup" className="hover:underline hover:text-primary">
+          <Link href="/signup" className="underline text-primary">
             Sign Up
           </Link>
         </span>

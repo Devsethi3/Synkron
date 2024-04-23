@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
-// import Logo from "../../../public/cypresslogo.svg";
+import Logo from "../../../public/logo.png";
 
 import {
   NavigationMenu,
@@ -80,10 +80,10 @@ const Header = () => {
           className="w-full flex gap-2
         justify-left items-center"
         >
-          {/* <Image src={Logo} alt="Cypress Logo" width={25} height={25} /> */}
+          <Image src={Logo} alt="Synkron Logo" width={30} height={30} />
           <span
-            className="font-semibold text-xl uppercase
-          dark:text-white
+            className="font-semibold text-2xl uppercase
+          dark:text-white/80
         "
           >
             synkron.
