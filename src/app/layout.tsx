@@ -4,6 +4,7 @@ import "./globals.css";
 import db from "@/lib/supabase/db";
 import { ThemeProvider } from "@/providers/NextThemeProvider";
 import { twMerge } from "tailwind-merge";
+import { Toaster } from "@/components/ui/toaster";
 
 const font = Lexend({ subsets: ["latin"] });
 
@@ -28,6 +29,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <Toaster />
           {children}
         </ThemeProvider>
       </body>

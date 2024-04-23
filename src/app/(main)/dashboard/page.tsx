@@ -25,7 +25,7 @@ const DashbaordPage = async () => {
   if (!workspace)
     return (
       <>
-        <div className="bg-background h-[50vh] w-screen flex justify-center items-center">
+        <div className="bg-background h-[70vh] w-screen flex justify-center items-center">
           <DashbaordSetup
             subscription={subscription}
             user={user}

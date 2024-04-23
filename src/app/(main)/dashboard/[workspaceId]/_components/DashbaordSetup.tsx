@@ -1,6 +1,9 @@
 "use client";
+import { AuthUser } from "@supabase/supabase-js";
+import React, { useState } from "react";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { v4 } from "uuid";
 
-import EmojiPicker from "@/components/global/EmojiPicker";
 import {
   Card,
   CardContent,
@@ -8,14 +11,19 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import EmojiPicker from "@/components/global/EmojiPicker";
 import { Label } from "@/components/ui/label";
-import { Subscription } from "@/lib/supabase/supabase.types";
+import { Input } from "@/components/ui/input";
+import { Subscription, workspace } from "@/lib/supabase/supabase.types";
+import { Button } from "@/components/ui/button";
+import { createWorkspace } from "@/lib/supabase/queries";
+import { toast, useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
+import { useAppState } from "@/providers/StateProvider";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { CreateWorkspaceFormSchema } from "@/lib/types";
-import { AuthUser } from "@supabase/supabase-js";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { TbLoader2 } from "react-icons/tb";
 
 interface DashboardSetupProps {
   user: AuthUser;
@@ -27,6 +35,7 @@ const DashbaordSetup: React.FC<DashboardSetupProps> = ({
   user,
 }) => {
   const [selectedEmoji, setSelectedEmoji] = useState("🚀");
+  const router = useRouter();
 
   const {
     register,
@@ -41,6 +50,72 @@ const DashbaordSetup: React.FC<DashboardSetupProps> = ({
     },
   });
 
+  const onSubmit: SubmitHandler<
+    z.infer<typeof CreateWorkspaceFormSchema>
+  > = async (value) => {
+    const file = value.logo?.[0];
+    let filePath = null;
+    const workspaceUUID = v4();
+    console.log(file);
+
+    if (file) {
+      try {
+        const { data, error } = await supabase.storage
+          .from("workspace-logos")
+          .upload(`workspaceLogo.${workspaceUUID}`, file, {
+            cacheControl: "3600",
+            upsert: true,
+          });
+        if (error) throw new Error("");
+        filePath = data.path;
+      } catch (error) {
+        console.log("Error", error);
+        toast({
+          variant: "destructive",
+          title: "Error! Could not upload your workspace logo",
+        });
+      }
+    }
+    try {
+      const newWorkspace: workspace = {
+        data: null,
+        createdAt: new Date().toISOString(),
+        iconId: selectedEmoji,
+        id: workspaceUUID,
+        inTrash: "",
+        title: value.workspaceName,
+        workspaceOwner: user.id,
+        logo: filePath || null,
+        bannerUrl: "",
+      };
+      const { data, error: createError } = await createWorkspace(newWorkspace);
+      if (createError) {
+        throw new Error();
+      }
+      dispatch({
+        type: "ADD_WORKSPACE",
+        payload: { ...newWorkspace, folders: [] },
+      });
+
+      toast({
+        title: "Workspace Created",
+        description: `${newWorkspace.title} has been created successfully.`,
+      });
+
+      router.replace(`/dashboard/${newWorkspace.id}`);
+    } catch (error) {
+      console.log(error, "Error");
+      toast({
+        variant: "destructive",
+        title: "Could not create your workspace",
+        description:
+          "Oops! Something went wrong. Try again or come back later.",
+      });
+    } finally {
+      reset();
+    }
+  };
+
   return (
     <Card className="w-[800px] sm:h-auto">
       <CardHeader>
@@ -51,7 +126,7 @@ const DashbaordSetup: React.FC<DashboardSetupProps> = ({
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={() => {}}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-4">
               <div className="text-5xl">
@@ -90,16 +165,34 @@ const DashbaordSetup: React.FC<DashboardSetupProps> = ({
                 id="logo"
                 type="file"
                 accept="image/*"
-                placeholder="Workspace Logo"
-                disabled={isLoading || subscription?.status !== "active"}
+                placeholder="Workspace Name"
+                // disabled={isLoading || subscription?.status !== 'active'}
                 {...register("logo", {
-                  required: "Workspace Logo is required",
+                  required: false,
                 })}
               />
-
               <small className="text-red-600">
                 {errors?.logo?.message?.toString()}
               </small>
+              {subscription?.status !== "active" && (
+                <small
+                  className="
+                  text-muted-foreground
+                  block
+              "
+                >
+                  To customize your workspace, you need to be on a Pro Plan
+                </small>
+              )}
+            </div>
+            <div className="self-end">
+              <Button disabled={isLoading} type="submit">
+                {!isLoading ? (
+                  "Create Workspace"
+                ) : (
+                  <TbLoader2 className="w-4 h-4 animate-spin" />
+                )}
+              </Button>
             </div>
           </div>
         </form>
