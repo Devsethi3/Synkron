@@ -5,7 +5,6 @@ import db from "./db";
 import { File, Folder, Subscription, User, workspace } from "./supabase.types";
 import { and, eq, ilike, notExists } from "drizzle-orm";
 import { collaborators } from "./schema";
-import { revalidatePath } from "next/cache";
 
 export const createWorkspace = async (workspace: workspace) => {
   try {

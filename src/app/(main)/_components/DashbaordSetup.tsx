@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Subscription, workspace } from "@/lib/supabase/supabase.types";
 import { Button } from "@/components/ui/button";
 import { createWorkspace } from "@/lib/supabase/queries";
-import { toast, useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { useAppState } from "@/providers/StateProvider";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
@@ -30,13 +30,15 @@ interface DashboardSetupProps {
   subscription: Subscription | null;
 }
 
-const DashbaordSetup: React.FC<DashboardSetupProps> = ({
+const DashboardSetup: React.FC<DashboardSetupProps> = ({
   subscription,
   user,
 }) => {
-  const [selectedEmoji, setSelectedEmoji] = useState("🚀");
+  const { toast } = useToast();
   const router = useRouter();
-
+  const { dispatch } = useAppState();
+  const [selectedEmoji, setSelectedEmoji] = useState("💼");
+  const supabase = createClientComponentClient();
   const {
     register,
     handleSubmit,
@@ -109,7 +111,7 @@ const DashbaordSetup: React.FC<DashboardSetupProps> = ({
         variant: "destructive",
         title: "Could not create your workspace",
         description:
-          "Oops! Something went wrong. Try again or come back later.",
+          "Oops! Something went wrong, and we couldn't create your workspace. Try again or come back later.",
       });
     } finally {
       reset();
@@ -117,28 +119,38 @@ const DashbaordSetup: React.FC<DashboardSetupProps> = ({
   };
 
   return (
-    <Card className="w-[800px] sm:h-auto">
+    <Card
+      className="w-[800px]
+      h-screen
+      sm:h-auto
+  "
+    >
       <CardHeader>
         <CardTitle>Create A Workspace</CardTitle>
         <CardDescription>
-          Lets create a private workspace to get you started. You can add
-          collaboration later from the workspace settings tab.
+          Lets create a private workspace to get you started.You can add
+          collaborators later from the workspace settings tab.
         </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col gap-4">
-            <div className="flex items-center gap-4">
+            <div
+              className="flex
+            items-center
+            gap-4"
+            >
               <div className="text-5xl">
                 <EmojiPicker getValue={(emoji) => setSelectedEmoji(emoji)}>
                   {selectedEmoji}
                 </EmojiPicker>
               </div>
-
-              <div className="w-full">
+              <div className="w-full ">
                 <Label
                   htmlFor="workspaceName"
-                  className="text-sm text-muted-foreground"
+                  className="text-sm
+                  text-muted-foreground
+                "
                 >
                   Name
                 </Label>
@@ -151,14 +163,18 @@ const DashbaordSetup: React.FC<DashboardSetupProps> = ({
                     required: "Workspace name is required",
                   })}
                 />
-
                 <small className="text-red-600">
-                  {errors?.logo?.message?.toString()}
+                  {errors?.workspaceName?.message?.toString()}
                 </small>
               </div>
             </div>
             <div>
-              <Label htmlFor="logo" className="text-sm text-muted-foreground">
+              <Label
+                htmlFor="logo"
+                className="text-sm
+                  text-muted-foreground
+                "
+              >
                 Workspace Logo
               </Label>
               <Input
@@ -190,7 +206,7 @@ const DashbaordSetup: React.FC<DashboardSetupProps> = ({
                 {!isLoading ? (
                   "Create Workspace"
                 ) : (
-                  <TbLoader2 className="w-4 h-4 animate-spin" />
+                  <TbLoader2 className="h-4 w-4 animate-spin" />
                 )}
               </Button>
             </div>
@@ -201,4 +217,4 @@ const DashbaordSetup: React.FC<DashboardSetupProps> = ({
   );
 };
 
-export default DashbaordSetup;
+export default DashboardSetup;

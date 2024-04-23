@@ -2,7 +2,7 @@ import db from "@/lib/supabase/db";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import DashbaordSetup from "./[workspaceId]/_components/DashbaordSetup";
+import DashbaordSetup from "../_components/DashbaordSetup";
 import { getUserSubscriptionStatus } from "@/lib/supabase/queries";
 
 const DashbaordPage = async () => {
