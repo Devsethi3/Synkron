@@ -1,6 +1,6 @@
 "use client";
 
-import { User } from "@/lib/supabase/supabase.types";
+import { User, workspace } from "@/lib/supabase/supabase.types";
 import { useSupabaseUser } from "@/providers/SupabaseUserProvider";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -15,6 +15,10 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Lock, Share } from "lucide-react";
+import { Button } from "../ui/button";
+import { v4 } from "uuid";
+import { addCollaborators, createWorkspace } from "@/lib/supabase/queries";
+import { toast } from "../ui/use-toast";
 
 const WorkspaceCreator = () => {
   const { user } = useSupabaseUser();
@@ -24,6 +28,8 @@ const WorkspaceCreator = () => {
   const [title, setTitle] = useState("");
   const [collaborators, setCollaborators] = useState<User[]>([]);
 
+  const [isLoading, setIsLoading] = useState(true);
+
   const addCollaborator = (user: User) => {
     setCollaborators([...collaborators, user]);
   };
@@ -31,6 +37,36 @@ const WorkspaceCreator = () => {
   const removeCollaborator = (user: User) => {
     setCollaborators(collaborators.filter((c) => c.id !== user.id));
   };
+
+  const createItem = async () => {
+    const uuid = v4();
+    if (user?.id) {
+      const newWorkspace: workspace = {
+        data: null,
+        createdAt: new Date().toISOString(),
+        iconId: "💼",
+        id: uuid,
+        inTrash: "",
+        title,
+        workspaceOwner: user.id,
+        logo: null,
+        bannerUrl: "",
+      };
+      if (permissions === "private") {
+        toast({ title: "Success", description: "Created the workspace" });
+        await createWorkspace(newWorkspace);
+        router.refresh();
+      }
+      if (permissions === "shared") {
+        toast({ title: "Success", description: "Created the workspace" });
+        await createWorkspace(newWorkspace);
+        await addCollaborators(collaborators, uuid);
+        router.refresh();
+      }
+    }
+    setIsLoading(false);
+  };
+
   return (
     <div className="flex gap-4 flex-col">
       <div>
@@ -63,9 +99,7 @@ const WorkspaceCreator = () => {
                     <Lock />
                     <article className="text-left flex flex-col">
                       <span>Private</span>
-                      <p>
-                        Your workspace is private to you.
-                      </p>
+                      <p>Your workspace is private to you.</p>
                     </article>
                   </div>
                 </SelectItem>
@@ -74,9 +108,7 @@ const WorkspaceCreator = () => {
                     <Share />
                     <article className="text-left flex flex-col">
                       <span>Shared</span>
-                      <p>
-                        Your workspace is private to you.
-                      </p>
+                      <p>You can invite collaborators.</p>
                     </article>
                   </div>
                 </SelectItem>
@@ -85,6 +117,17 @@ const WorkspaceCreator = () => {
           </SelectTrigger>
         </Select>
       </>
+      {permissions === "shared" && <div></div>}
+      <Button
+        type="button"
+        variant="secondary"
+        onClick={createItem}
+        disabled={
+          !title || (permissions === "shared" && collaborators.length === 0)
+        }
+      >
+        Create
+      </Button>
     </div>
   );
 };
