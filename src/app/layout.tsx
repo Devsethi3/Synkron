@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/providers/NextThemeProvider";
 import { twMerge } from "tailwind-merge";
 import { Toaster } from "@/components/ui/toaster";
 import AppStateProvider from "@/providers/StateProvider";
+import { SupabaseUserProvider } from "@/providers/SupabaseUserProvider";
 
 const font = Lexend({ subsets: ["latin"] });
 
@@ -25,15 +26,17 @@ export default function RootLayout({
     <html lang="en">
       <body className={twMerge("bg-background", font.className)}>
         <AppStateProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <Toaster />
-            {children}
-          </ThemeProvider>
+          <SupabaseUserProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <Toaster />
+              {children}
+            </ThemeProvider>
+          </SupabaseUserProvider>
         </AppStateProvider>
       </body>
     </html>
