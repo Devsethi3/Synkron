@@ -14,11 +14,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { Lock, Share } from "lucide-react";
+import { Lock, Plus, Share } from "lucide-react";
 import { Button } from "../ui/button";
 import { v4 } from "uuid";
 import { addCollaborators, createWorkspace } from "@/lib/supabase/queries";
 import { toast } from "../ui/use-toast";
+import CollaboratorSearch from "../global/CollaboratorSearch";
 
 const WorkspaceCreator = () => {
   const { user } = useSupabaseUser();
@@ -117,7 +118,21 @@ const WorkspaceCreator = () => {
           </SelectTrigger>
         </Select>
       </>
-      {permissions === "shared" && <div></div>}
+      {permissions === "shared" && (
+        <div>
+          <CollaboratorSearch
+            existingCollaborators={collaborators}
+            getCollaborator={(user) => {
+              addCollaborator(user);
+            }}
+          >
+            <Button type="button" className="text-sm mt-4">
+              <Plus />
+              Add Collaborators
+            </Button>
+          </CollaboratorSearch>
+        </div>
+      )}
       <Button
         type="button"
         variant="secondary"
