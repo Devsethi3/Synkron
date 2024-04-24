@@ -54,13 +54,20 @@ const WorkspaceCreator = () => {
           onValueChange={(val) => setPermissions(val)}
           defaultValue={permissions}
         >
-          <SelectTrigger className="w-full h-26 -mt-3">
+          <SelectTrigger className="w-full h-[20px] -mt-3">
             <SelectValue />
             <SelectContent>
               <SelectGroup>
                 <SelectItem value="private">
-                  <div className="p-4 flex gap-4 justify-center items-center">
+                  <div className="p-2 flex gap-4 justify-center items-center">
                     <Lock />
+                    <article className="text-left flex flex-col">
+                      <span>Private</span>
+                      <p>
+                        Your workspace is private to you. You can choose to
+                        share it later.
+                      </p>
+                    </article>
                   </div>
                 </SelectItem>
               </SelectGroup>

@@ -100,7 +100,7 @@ const LoginPage = () => {
           )}
         </Button>
         <span className="self-container flex items-center gap-3">
-          Don't have an account?
+          Don&apos;t have an account?
           <Link href="/signup" className="underline text-primary">
             Sign Up
           </Link>
