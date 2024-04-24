@@ -5,6 +5,16 @@ import { useSupabaseUser } from "@/providers/SupabaseUserProvider";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Label } from "../ui/label";
+import { Input } from "../ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { Lock } from "lucide-react";
 
 const WorkspaceCreator = () => {
   const { user } = useSupabaseUser();
@@ -24,8 +34,40 @@ const WorkspaceCreator = () => {
   return (
     <div className="flex gap-4 flex-col">
       <div>
-        <Label htmlFor="name"></Label>
+        <Label htmlFor="name" className="text-sm text-muted-foreground">
+          Name
+        </Label>
+        <div className="flex justify-center items-center gap-2">
+          <Input
+            name="name"
+            value={title}
+            placeholder="Workspace Name"
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
       </div>
+      <>
+        <Label htmlFor="permissions" className="text-sm text-muted-foreground">
+          Permission
+        </Label>
+        <Select
+          onValueChange={(val) => setPermissions(val)}
+          defaultValue={permissions}
+        >
+          <SelectTrigger className="w-full h-26 -mt-3">
+            <SelectValue />
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="private">
+                  <div className="p-4 flex gap-4 justify-center items-center">
+                    <Lock />
+                  </div>
+                </SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </SelectTrigger>
+        </Select>
+      </>
     </div>
   );
 };
