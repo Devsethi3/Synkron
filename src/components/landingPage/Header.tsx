@@ -189,7 +189,7 @@ const Header = () => {
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
-            <NavigationMenuItem>
+            {/* <NavigationMenuItem>
               <NavigationMenuLink
                 className={cn(navigationMenuTriggerStyle(), {
                   "dark:text-white": path === "#testimonials",
@@ -200,6 +200,11 @@ const Header = () => {
               >
                 Testimonial
               </NavigationMenuLink>
+            </NavigationMenuItem> */}
+            <NavigationMenuItem>
+              <Link href="/" className="dark:text-white/70">
+                Dashboard
+              </Link>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>

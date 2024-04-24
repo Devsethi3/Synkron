@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { Lock } from "lucide-react";
+import { Lock, Share } from "lucide-react";
 
 const WorkspaceCreator = () => {
   const { user } = useSupabaseUser();
@@ -54,7 +54,7 @@ const WorkspaceCreator = () => {
           onValueChange={(val) => setPermissions(val)}
           defaultValue={permissions}
         >
-          <SelectTrigger className="w-full h-[20px] -mt-3">
+          <SelectTrigger className="w-full h-20 -mt-3">
             <SelectValue />
             <SelectContent>
               <SelectGroup>
@@ -64,8 +64,18 @@ const WorkspaceCreator = () => {
                     <article className="text-left flex flex-col">
                       <span>Private</span>
                       <p>
-                        Your workspace is private to you. You can choose to
-                        share it later.
+                        Your workspace is private to you.
+                      </p>
+                    </article>
+                  </div>
+                </SelectItem>
+                <SelectItem value="shared">
+                  <div className="p-2 flex gap-4 justify-center items-center">
+                    <Share />
+                    <article className="text-left flex flex-col">
+                      <span>Shared</span>
+                      <p>
+                        Your workspace is private to you.
                       </p>
                     </article>
                   </div>
