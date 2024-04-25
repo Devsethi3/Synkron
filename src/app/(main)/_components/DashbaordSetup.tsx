@@ -111,7 +111,7 @@ const DashboardSetup: React.FC<DashboardSetupProps> = ({
         variant: "destructive",
         title: "Could not create your workspace",
         description:
-          "Oops! Something went wrong, and we couldn't create your workspace. Try again or come back later.",
+          "Oops! Something went wrong, Try again or come back later.",
       });
     } finally {
       reset();
