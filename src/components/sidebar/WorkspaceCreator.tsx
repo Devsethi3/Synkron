@@ -20,6 +20,8 @@ import { v4 } from "uuid";
 import { addCollaborators, createWorkspace } from "@/lib/supabase/queries";
 import { toast } from "../ui/use-toast";
 import CollaboratorSearch from "../global/CollaboratorSearch";
+import { ScrollArea } from "../ui/scroll-area";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 const WorkspaceCreator = () => {
   const { user } = useSupabaseUser();
@@ -131,6 +133,32 @@ const WorkspaceCreator = () => {
               Add Collaborators
             </Button>
           </CollaboratorSearch>
+          <div className="mt-4">
+            <span className="text-sm text-muted-foreground">
+              Collaborators {collaborators.length || ""}
+            </span>
+
+            <ScrollArea className="h-[120px] overscroll-y-scroll w-full rounded-md border border-muted-foreground">
+              {collaborators.length
+                ? collaborators.map((c) => (
+                    <div
+                      className="p-4 flex justify-between items-center"
+                      key={c.id}
+                    >
+                      <div className="flex gap-4 items-center">
+                        <Avatar>
+                          <AvatarImage src="/avatars/7.png" />
+                          <AvatarFallback>PJ</AvatarFallback>
+                        </Avatar>
+                        <div className="text-sm gap-2 text-muted-foreground overflow-hidden overflow-ellipsis sm:w-[300px] w-[140px]">
+                          {c.email}
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                : ""}
+            </ScrollArea>
+          </div>
         </div>
       )}
       <Button
