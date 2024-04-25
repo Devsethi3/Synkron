@@ -1,12 +1,15 @@
-import db from "@/lib/supabase/db";
+import React from "react";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import DashbaordSetup from "../_components/DashbaordSetup";
-import { getUserSubscriptionStatus } from "@/lib/supabase/queries";
 
-const DashbaordPage = async () => {
+import { cookies } from "next/headers";
+import db from "@/lib/supabase/db";
+import { redirect } from "next/navigation";
+import { getUserSubscriptionStatus } from "@/lib/supabase/queries";
+import DashboardSetup from "../_components/DashbaordSetup";
+
+const DashboardPage = async () => {
   const supabase = createServerComponentClient({ cookies });
+
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -21,20 +24,24 @@ const DashbaordPage = async () => {
     await getUserSubscriptionStatus(user.id);
 
   if (subscriptionError) return;
+  console.log("workspaceId", workspace?.id);
 
   if (!workspace)
     return (
-      <>
-        <div className="bg-background h-[70vh] w-screen flex justify-center items-center">
-          <DashbaordSetup
-            subscription={subscription}
-            user={user}
-          ></DashbaordSetup>
-        </div>
-      </>
+      <div
+        className="bg-background
+        h-screen
+        w-screen
+        flex
+        justify-center
+        items-center
+  "
+      >
+        <DashboardSetup user={user} subscription={subscription} />
+      </div>
     );
 
-  redirect(`/dashbaord/${workspace.id}`);
+  redirect(`/dashboard/${workspace.id}`);
 };
 
-export default DashbaordPage;
+export default DashboardPage;
