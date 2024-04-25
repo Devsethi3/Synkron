@@ -15,6 +15,13 @@
       "when": 1714062124952,
       "tag": "0001_cold_lyja",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1714062807179,
+      "tag": "0002_special_luckman",
+      "breakpoints": true
     }
   ]
 }
