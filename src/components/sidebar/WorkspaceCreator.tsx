@@ -76,48 +76,72 @@ const WorkspaceCreator = () => {
         <Label htmlFor="name" className="text-sm text-muted-foreground">
           Name
         </Label>
-        <div className="flex justify-center items-center gap-2">
+        <div
+          className="flex 
+        justify-center 
+        items-center 
+        gap-2
+        "
+        >
           <Input
             name="name"
             value={title}
             placeholder="Workspace Name"
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => {
+              setTitle(e.target.value);
+            }}
           />
         </div>
       </div>
       <>
-        <Label htmlFor="permissions" className="text-sm text-muted-foreground">
+        <Label
+          htmlFor="permissions"
+          className="text-sm
+          text-muted-foreground"
+        >
           Permission
         </Label>
         <Select
-          onValueChange={(val) => setPermissions(val)}
+          onValueChange={(val) => {
+            setPermissions(val);
+          }}
           defaultValue={permissions}
         >
-          <SelectTrigger className="w-full h-20 -mt-3">
+          <SelectTrigger className="w-full h-26 -mt-3">
             <SelectValue />
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value="private">
-                  <div className="p-2 flex gap-4 justify-center items-center">
-                    <Lock />
-                    <article className="text-left flex flex-col">
-                      <span>Private</span>
-                      <p>Your workspace is private to you.</p>
-                    </article>
-                  </div>
-                </SelectItem>
-                <SelectItem value="shared">
-                  <div className="p-2 flex gap-4 justify-center items-center">
-                    <Share />
-                    <article className="text-left flex flex-col">
-                      <span>Shared</span>
-                      <p>You can invite collaborators.</p>
-                    </article>
-                  </div>
-                </SelectItem>
-              </SelectGroup>
-            </SelectContent>
           </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value="private">
+                <div
+                  className="p-2
+                  flex
+                  gap-4
+                  justify-center
+                  items-center
+                "
+                >
+                  <Lock />
+                  <article className="text-left flex flex-col">
+                    <span>Private</span>
+                    <p>
+                      Your workspace is private to you. You can choose to share
+                      it later.
+                    </p>
+                  </article>
+                </div>
+              </SelectItem>
+              <SelectItem value="shared">
+                <div className="p-2 flex gap-4 justify-center items-center">
+                  <Share></Share>
+                  <article className="text-left flex flex-col">
+                    <span>Shared</span>
+                    <span>You can invite collaborators.</span>
+                  </article>
+                </div>
+              </SelectItem>
+            </SelectGroup>
+          </SelectContent>
         </Select>
       </>
       {permissions === "shared" && (
@@ -137,37 +161,79 @@ const WorkspaceCreator = () => {
             <span className="text-sm text-muted-foreground">
               Collaborators {collaborators.length || ""}
             </span>
-
-            <ScrollArea className="h-[120px] overscroll-y-scroll w-full rounded-md border border-muted-foreground">
-              {collaborators.length
-                ? collaborators.map((c) => (
-                    <div
-                      className="p-4 flex justify-between items-center"
-                      key={c.id}
-                    >
-                      <div className="flex gap-4 items-center">
-                        <Avatar>
-                          <AvatarImage src="/avatars/7.png" />
-                          <AvatarFallback>PJ</AvatarFallback>
-                        </Avatar>
-                        <div className="text-sm gap-2 text-muted-foreground overflow-hidden overflow-ellipsis sm:w-[300px] w-[140px]">
-                          {c.email}
-                        </div>
+            <ScrollArea
+              className="
+            h-[120px]
+            overflow-y-scroll
+            w-full
+            rounded-md
+            border
+            border-muted-foreground/20"
+            >
+              {collaborators.length ? (
+                collaborators.map((c) => (
+                  <div
+                    className="p-4 flex
+                      justify-between
+                      items-center
+                "
+                    key={c.id}
+                  >
+                    <div className="flex gap-4 items-center">
+                      <Avatar>
+                        <AvatarImage src="/avatars/7.png" />
+                        <AvatarFallback>PJ</AvatarFallback>
+                      </Avatar>
+                      <div
+                        className="text-sm 
+                          gap-2
+                          text-muted-foreground
+                          overflow-hidden
+                          overflow-ellipsis
+                          sm:w-[300px]
+                          w-[140px]
+                        "
+                      >
+                        {c.email}
                       </div>
                     </div>
-                  ))
-                : ""}
+                    <Button
+                      variant="secondary"
+                      onClick={() => removeCollaborator(c)}
+                    >
+                      Remove
+                    </Button>
+                  </div>
+                ))
+              ) : (
+                <div
+                  className="absolute
+                  right-0 left-0
+                  top-0
+                  bottom-0
+                  flex
+                  justify-center
+                  items-center
+                "
+                >
+                  <span className="text-muted-foreground text-sm">
+                    You have no collaborators
+                  </span>
+                </div>
+              )}
             </ScrollArea>
           </div>
         </div>
       )}
       <Button
         type="button"
-        variant="secondary"
-        onClick={createItem}
         disabled={
-          !title || (permissions === "shared" && collaborators.length === 0)
+          !title ||
+          (permissions === "shared" && collaborators.length === 0) ||
+          isLoading
         }
+        variant={"secondary"}
+        onClick={createItem}
       >
         Create
       </Button>
