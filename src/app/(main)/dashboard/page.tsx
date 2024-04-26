@@ -24,7 +24,6 @@ const DashboardPage = async () => {
     await getUserSubscriptionStatus(user.id);
 
   if (subscriptionError) return;
-  console.log("workspaceId", workspace?.id);
 
   if (!workspace)
     return (

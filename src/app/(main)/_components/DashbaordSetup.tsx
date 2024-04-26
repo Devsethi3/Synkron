@@ -116,7 +116,7 @@ const DashboardSetup: React.FC<DashboardSetupProps> = ({
     } finally {
       reset();
     }
-  };
+  };  
 
   return (
     <Card

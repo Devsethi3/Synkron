@@ -1,6 +1,12 @@
-import React from 'react'
+"use client"
 
-const WorkspacePage = () => {
+interface WorkspacePageProps {
+  params: string
+}
+
+const WorkspacePage:React.FC<WorkspacePageProps> = ({params}) => {
+  console.log(params);
+  
   return (
     <div>WorkspacePage</div>
   )

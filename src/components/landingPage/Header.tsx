@@ -81,13 +81,13 @@ const Header = () => {
           className="w-full flex gap-2
         justify-left items-center"
         >
-          <Image src={Logo} alt="Synkron Logo" width={30} height={30} />
+          <Image src={Logo} alt="Synkron Logo" width={25} height={25} />
           <span
-            className="font-semibold text-2xl uppercase
+            className="font-bold text-2xl uppercase
           dark:text-white/80
         "
           >
-            synkron.
+            synkron
           </span>
         </Link>
         <NavigationMenu className="hidden md:block">
