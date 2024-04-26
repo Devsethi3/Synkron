@@ -31,7 +31,7 @@ const WorkspaceCreator = () => {
   const [title, setTitle] = useState("");
   const [collaborators, setCollaborators] = useState<User[]>([]);
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const addCollaborator = (user: User) => {
     setCollaborators([...collaborators, user]);
@@ -42,6 +42,7 @@ const WorkspaceCreator = () => {
   };
 
   const createItem = async () => {
+    setIsLoading(true);
     const uuid = v4();
     if (user?.id) {
       const newWorkspace: workspace = {
@@ -56,12 +57,12 @@ const WorkspaceCreator = () => {
         bannerUrl: "",
       };
       if (permissions === "private") {
-        toast({ title: "Success", description: "Created the workspace" });
+        toast({ title: "Success", description: "Workspace Created Successfully!" });
         await createWorkspace(newWorkspace);
         router.refresh();
       }
       if (permissions === "shared") {
-        toast({ title: "Success", description: "Created the workspace" });
+        toast({ title: "Success", description: "Workspace Created Successfully!" });
         await createWorkspace(newWorkspace);
         await addCollaborators(collaborators, uuid);
         router.refresh();

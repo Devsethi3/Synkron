@@ -10,6 +10,8 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 import WorkspaceDropdown from "./WorkspaceDropdown";
+import PlanUsage from "./PlanUsage";
+import NativeNavigation from "./NativeNavigation";
 
 interface SidebarProps {
   params: { workspaceId: string };
@@ -43,12 +45,10 @@ const Sidebar: React.FC<SidebarProps> = async ({ params, className }) => {
       getSharedWorkspaces(user.id),
     ]);
 
-    
-
   return (
     <aside
       className={twMerge(
-        "hidden sm:flex sm:flex-col w-[280px] shrink-0 p-4 md:gap-4 !justify-between",
+        "hidden sm:flex sm:flex-col w-[280px] shrink-0 p-4 md:gap-4",
         className
       )}
     >
@@ -61,7 +61,12 @@ const Sidebar: React.FC<SidebarProps> = async ({ params, className }) => {
           ...collaboratingWorkspaces,
           ...sharedWorkspaces,
         ].find((workspace) => workspace.id === params.workspaceId)}
-      ></WorkspaceDropdown>
+      />
+      <PlanUsage
+        foldersLength={workspaceFolderData?.length || 0}
+        subscription={subscriptionData}
+      />
+      <NativeNavigation myWorkspaceId={params.workspaceId} />
     </aside>
   );
 };
