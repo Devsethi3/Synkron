@@ -1,4 +1,5 @@
 "use client";
+
 import { User } from "@/lib/supabase/supabase.types";
 import React, { useEffect, useRef, useState } from "react";
 import {
@@ -39,14 +40,14 @@ const CollaboratorSearch: React.FC<CollaboratorSearchProps> = ({
     };
   }, []);
 
-  const getUserData = () => {};
+  // const getUserData = () => {};
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (timerRef) clearTimeout(timerRef.current);
-    // timerRef.current = setTimeout(async () => {
-    //   const res = await getUsersFromSearch(e.target.value);
-    //   setSearchResults(res);
-    // }, 450);
+    timerRef.current = setTimeout(async () => {
+      const res = await getUsersFromSearch(e.target.value);
+      setSearchResults(res);
+    }, 450);
   };
 
   const addCollaborator = (user: User) => {
