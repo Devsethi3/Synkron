@@ -7,8 +7,10 @@ import { useMemo, useState } from "react";
 import { AccordionItem, AccordionTrigger } from "../ui/accordion";
 import clsx from "clsx";
 import EmojiPicker from "../global/EmojiPicker";
-import { updateFolder } from "@/lib/supabase/queries";
+import { updateFile, updateFolder } from "@/lib/supabase/queries";
 import { toast } from "../ui/use-toast";
+import TooltipComponent from "../global/TooltipComponent";
+import { PlusIcon } from "lucide-react";
 
 interface DropdownProps {
   title: string;
@@ -76,17 +78,34 @@ const Dropdown: React.FC<DropdownProps> = ({
   };
 
   // blur
+
   const handleBlur = async () => {
+    if (!isEditing) return;
     setIsEditing(false);
     const fId = id.split("folder");
-    if (folderId?.length === 1) {
+    if (fId?.length === 1) {
       if (!folderTitle) return;
-
+      toast({
+        title: "Success",
+        description: "Folder title changed.",
+      });
       await updateFolder({ title }, fId[0]);
     }
 
     if (fId.length === 2 && fId[1]) {
       if (!fileTitle) return;
+      const { data, error } = await updateFile({ title: fileTitle }, fId[1]);
+      if (error) {
+        toast({
+          title: "Error",
+          variant: "destructive",
+          description: "Could not update the title for this file",
+        });
+      } else
+        toast({
+          title: "Success",
+          description: "File title changed.",
+        });
     }
   };
 
@@ -169,6 +188,18 @@ const Dropdown: React.FC<DropdownProps> = ({
     [isFolder]
   );
 
+  const hoverStyles = useMemo(
+    () =>
+      clsx(
+        "h-full hidden rounded-sm absolute right-0 items-center justify-center",
+        {
+          "group-hover/file:block": listType === "file",
+          "group-hover/folder:block": listType === "folder",
+        }
+      ),
+    [isFolder]
+  );
+
   return (
     <AccordionItem
       value={id}
@@ -205,6 +236,17 @@ const Dropdown: React.FC<DropdownProps> = ({
                 listType === "folder" ? folderTitleChange : fileTitleChange
               }
             />
+          </div>
+
+          <div className="h-full hidden group-hover/file:block rounded-sm absolute right-0 items-center gap-2 justify-center">
+            {listType === "folder" && !isEditing && (
+              <TooltipComponent message="Add File">
+                <PlusIcon
+                  size={15}
+                  className="hover:dark:text-white dark:text-Neutrals-7 transition-colors"
+                />
+              </TooltipComponent>
+            )}
           </div>
         </div>
       </AccordionTrigger>
