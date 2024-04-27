@@ -329,7 +329,7 @@ const Dropdown: React.FC<DropdownProps> = ({
               type="text"
               value={listType === "folder" ? folderTitle : fileTitle}
               className={clsx(
-                "outline-none overflow-hidden w-[140px] text-Neutrals/neutrals-9",
+                "outline-none overflow-hidden w-[140px] dark:text-Neutrals/neutrals-7 text-Neutrals/neutrals-8 font-medium",
                 {
                   "bg-muted cursor-text": isEditing,
                   "bg-transparent cursor-pointer": !isEditing,

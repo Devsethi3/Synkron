@@ -17,6 +17,23 @@ body {
   padding-inline: 0.75rem;
 }
 
+.loader {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  box-sizing: border-box;
+  border-top: 8px solid #7C3AED;
+  border-left: 8px solid #7C3AED;
+  border-right: 8px solid #ff00;
+  animation: loader 0.7s infinite linear;
+}
+
+@keyframes loader {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
