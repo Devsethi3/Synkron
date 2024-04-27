@@ -9,6 +9,7 @@ import { useSupabaseUser } from "@/providers/SupabaseUserProvider";
 import { v4 } from "uuid";
 import { useToast } from "../ui/use-toast";
 import { createFolder } from "@/lib/supabase/queries";
+import { Accordion } from "../ui/accordion";
 
 interface FoldersDropdownListProps {
   workspaceFolders: Folder[];
@@ -86,16 +87,25 @@ const FoldersDropdownList: React.FC<FoldersDropdownListProps> = ({
   };
 
   return (
-    <div className="flex sticky z-20 top-0 bg-background w-full h-10 group/title justify-between items-center pr-4 text-Neutrals/neutrals-8">
-      <span className="text-Neutrals-8 font-bold text-xs">FOLDERS</span>
-      <TooltipComponent message="Create Folder">
-        <PlusIcon
-          onClick={addFolderHandler}
-          size={16}
-          className="group-hover/title:inline-block hidden cursor-pointer hover:dark:text-white"
-        />
-      </TooltipComponent>
-    </div>
+    <>
+      <div className="flex sticky z-20 top-0 bg-background w-full h-10 group/title justify-between items-center pr-4 text-Neutrals/neutrals-8">
+        <span className="text-Neutrals-8 font-bold text-xs">FOLDERS</span>
+        <TooltipComponent message="Create Folder">
+          <PlusIcon
+            onClick={addFolderHandler}
+            size={16}
+            className="group-hover/title:inline-block hidden cursor-pointer hover:dark:text-white"
+          />
+        </TooltipComponent>
+        <Accordion type="multiple" defaultValue={[folderId || ""]}>
+          {folders
+            .filter((folder) => !folder.inTrash)
+            .map((folder) => (
+              <div key={folder.id}></div>
+            ))}
+        </Accordion>
+      </div>
+    </>
   );
 };
 
