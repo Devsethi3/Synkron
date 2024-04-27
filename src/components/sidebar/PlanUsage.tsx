@@ -5,6 +5,8 @@ import { Subscription } from "@/lib/supabase/supabase.types";
 import { useAppState } from "@/providers/StateProvider";
 import React, { useEffect, useState } from "react";
 import { Progress } from "../ui/progress";
+import Image from "next/image";
+import Diamond from "../../../public/icons/diamond.svg";
 
 interface PlanUsageProps {
   foldersLength: number;
@@ -33,7 +35,14 @@ const PlanUsage: React.FC<PlanUsageProps> = ({
     <article className="mb-4">
       {subscription?.status !== "active" && (
         <div className="flex gap-2 text-sm font-medium mb-2 items-center">
-          <div className="h-4 w-4"></div>
+          <div className="h-4 w-4 relative">
+            <Image
+              src={Diamond}
+              alt="Pro Plan Icon"
+              fill
+              // className="absolute top-6 right-6"
+            />
+          </div>
           <div className="flex justify-between w-full items-center">
             <p>Free Plan</p>
             <small>{usagePercentage.toFixed(0)}% / 100%</small>

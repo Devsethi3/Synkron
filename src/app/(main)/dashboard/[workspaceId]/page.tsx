@@ -1,15 +1,30 @@
-"use client"
+export const dynamic = "force-dynamic";
+
+import QuillEditor from "@/components/quillEditor/QuillEditor";
+import { getWorkspaceDetails } from "@/lib/supabase/queries";
+import { redirect } from "next/navigation";
 
 interface WorkspacePageProps {
-  params: string
+  params: string;
 }
 
-const WorkspacePage:React.FC<WorkspacePageProps> = ({params}) => {
-  console.log(params);
-  
+const WorkspacePage = async ({
+  params,
+}: {
+  params: { workspaceId: string };
+}) => {
+  const { data, error } = await getWorkspaceDetails(params.workspaceId);
+  if (error || !data.length) redirect("dashbaord");
+
   return (
-    <div>WorkspacePage</div>
-  )
-}
+    <div className="relative">
+      <QuillEditor
+        dirType="workspace"
+        fileId={params.workspaceId}
+        dirDetails={data[0] || {}}
+      />
+    </div>
+  );
+};
 
-export default WorkspacePage
+export default WorkspacePage;
