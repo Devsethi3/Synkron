@@ -36,7 +36,7 @@ var TOOLBAR_OPTIONS = [
   [{ font: [] }],
   [{ align: [] }],
 
-  ["clean"], // remove formatting button
+  ["clean"],
 ];
 
 const QuillEditor: React.FC<QuillEditorProps> = ({
@@ -147,28 +147,58 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
     <>
       <div className="relative">
         {details.inTrash && (
-          <article className="py-2 z-40 text-white gap-4 flex-wrap bg-[#ff7070] flex md:flex-row flex-col justify-center items-center">
-            <div className="flex flex-col md:flex-row gap-2 justify-center items-center">
+          <article
+            className="py-2 
+          z-40 
+          bg-[#EB5757] 
+          flex  
+          md:flex-row 
+          flex-col 
+          justify-center 
+          items-center 
+          gap-4 
+          flex-wrap"
+          >
+            <div
+              className="flex 
+            flex-col 
+            md:flex-row 
+            gap-2 
+            justify-center 
+            items-center"
+            >
               <span className="text-white">
                 This {dirType} is in the trash.
               </span>
               <Button
                 size="sm"
                 variant="outline"
-                className="bg-transparent border-white text-white hover:bg-white hover:text-[#ea6a6a]"
+                className="bg-transparent
+                border-white
+                text-white
+                hover:bg-white
+                hover:text-[#EB5757]
+                "
                 onClick={restoreFileHandler}
               >
                 Restore
               </Button>
+
               <Button
                 size="sm"
                 variant="outline"
-                className="bg-transparent border-white text-white hover:bg-white hover:text-[#ea6a6a]"
+                className="bg-transparent
+                border-white
+                text-white
+                hover:bg-white
+                hover:text-[#EB5757]
+                "
                 onClick={deleteFileHandler}
               >
                 Delete
               </Button>
             </div>
+            <span className="text-sm text-white">{details.inTrash}</span>
           </article>
         )}
       </div>
