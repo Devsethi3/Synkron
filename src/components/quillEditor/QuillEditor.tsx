@@ -1,6 +1,6 @@
 "use client";
 
-import { Folder, workspace } from "@/lib/supabase/supabase.types";
+import { File, Folder, workspace } from "@/lib/supabase/supabase.types";
 import { useAppState } from "@/providers/StateProvider";
 import { useCallback, useMemo, useState } from "react";
 import "quill/dist/quill.snow.css";
