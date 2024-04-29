@@ -1,11 +1,23 @@
-import React from 'react'
+export const dynamic = "force-dynamic";
 
-interface FilePageProps{}
+import React from "react";
+import { getFileDetails } from "@/lib/supabase/queries";
+import { redirect } from "next/navigation";
+import QuillEditor from "@/components/quillEditor/QuillEditor";
 
-const FilePage:React.FC<FilePageProps> = () => {
+const File = async ({ params }: { params: { fileId: string } }) => {
+  const { data, error } = await getFileDetails(params.fileId);
+  if (error || !data.length) redirect("/dashboard");
+
   return (
-    <div>FilePage</div>
-  )
-}
+    <div className="relative ">
+      <QuillEditor
+        dirType="file"
+        fileId={params.fileId}
+        dirDetails={data[0] || {}}
+      />
+    </div>
+  );
+};
 
-export default FilePage
+export default File;
