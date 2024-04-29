@@ -15,6 +15,13 @@ import { useRouter } from "next/navigation";
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import "quill/dist/quill.snow.css";
 import { Button } from "../ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 interface QuillEditorProps {
   dirDetails: File | Folder | workspace;
@@ -262,6 +269,43 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
         p-8"
         >
           <div>{breadCrumbs}</div>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center justify-center h-10">
+              {collaborators?.map((collaborator) => (
+                <TooltipProvider key={collaborator.id}>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Avatar
+                        className="
+                    -ml-3 
+                    bg-background 
+                    border-2 
+                    flex 
+                    items-center 
+                    justify-center 
+                    border-white 
+                    h-8 
+                    w-8 
+                    rounded-full
+                    "
+                      >
+                        <AvatarImage
+                          src={
+                            collaborator.avatarUrl ? collaborator.avatarUrl : ""
+                          }
+                          className="rounded-full"
+                        />
+                        <AvatarFallback>
+                          {collaborator.email.substring(0, 2).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                    </TooltipTrigger>
+                    <TooltipContent>{collaborator.email}</TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
       <div className="flex justify-center items-center flex-col mt-2 relative">
