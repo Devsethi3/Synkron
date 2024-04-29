@@ -10,15 +10,11 @@ import { File, Folder, workspace } from "@/lib/supabase/supabase.types";
 import { useAppState } from "@/providers/StateProvider";
 import { useSupabaseUser } from "@/providers/SupabaseUserProvider";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useCallback, useMemo, useRef, useState } from "react";
+import "quill/dist/quill.snow.css";
 import { Button } from "../ui/button";
-
-interface QuillEditorProps {
-  dirDetails: File | Folder | workspace;
-  fileId: string;
-  dirType: "workspace" | "folder" | "file";
-}
 
 interface QuillEditorProps {
   dirDetails: File | Folder | workspace;
@@ -47,8 +43,8 @@ var TOOLBAR_OPTIONS = [
 
 const QuillEditor: React.FC<QuillEditorProps> = ({
   dirDetails,
-  fileId,
   dirType,
+  fileId,
 }) => {
   const supabase = createClientComponentClient();
   const { state, workspaceId, folderId, dispatch } = useAppState();
@@ -162,9 +158,8 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
   return (
     <>
       <div className="relative">
-        {details.inTrash && (
-          <article
-            className="py-2 
+        <article
+          className="py-2 
           z-40 
           bg-[#EB5757] 
           flex  
@@ -174,50 +169,49 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
           items-center 
           gap-4 
           flex-wrap"
-          >
-            <div
-              className="flex 
+        >
+          <div
+            className="flex 
             flex-col 
             md:flex-row 
             gap-2 
             justify-center 
             items-center"
+          >
+            <span className="text-white">This {dirType} is in the trash.</span>
+            <Button
+              size="sm"
+              variant="outline"
+              className="bg-transparent
+                border-white
+                text-white
+                hover:bg-white
+                hover:text-[#EB5757]
+                "
+              onClick={restoreFileHandler}
             >
-              <span className="text-white">
-                This {dirType} is in the trash.
-              </span>
-              <Button
-                size="sm"
-                variant="outline"
-                className="bg-transparent
-                border-white
-                text-white
-                hover:bg-white
-                hover:text-[#EB5757]
-                "
-                onClick={restoreFileHandler}
-              >
-                Restore
-              </Button>
+              Restore
+            </Button>
 
-              <Button
-                size="sm"
-                variant="outline"
-                className="bg-transparent
+            <Button
+              size="sm"
+              variant="outline"
+              className="bg-transparent
                 border-white
                 text-white
                 hover:bg-white
                 hover:text-[#EB5757]
                 "
-                onClick={deleteFileHandler}
-              >
-                Delete
-              </Button>
-            </div>
-            <span className="text-sm text-white">{details.inTrash}</span>
-          </article>
-        )}
+              onClick={deleteFileHandler}
+            >
+              Delete
+            </Button>
+          </div>
+          <span className="text-sm text-white">{details.inTrash}</span>
+        </article>
+        {details.inTrash && "Lund"}
       </div>
+      <div id="container" className="max-w-[800px]" ref={wrapperRef}></div>
     </>
   );
 };
