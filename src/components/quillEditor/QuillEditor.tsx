@@ -157,7 +157,7 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
 
   return (
     <>
-      <div className="relative">
+      <div className="flex justify-center items-center flex-col mt-2 relative">
         <article
           className="py-2 
           z-40 
@@ -210,8 +210,8 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
           <span className="text-sm text-white">{details.inTrash}</span>
         </article>
         {details.inTrash && "Lund"}
+        <div id="container" className="max-w-[800px]" ref={wrapperRef}></div>
       </div>
-      <div id="container" className="max-w-[800px]" ref={wrapperRef}></div>
     </>
   );
 };
