@@ -1,17 +1,18 @@
 "use client";
 
-import { File, Folder, workspace } from "@/lib/supabase/supabase.types";
-import { useAppState } from "@/providers/StateProvider";
-import { useCallback, useMemo, useState } from "react";
-import "quill/dist/quill.snow.css";
-import { Button } from "../ui/button";
 import {
   deleteFile,
   deleteFolder,
   updateFile,
   updateFolder,
 } from "@/lib/supabase/queries";
-import { useRouter } from "next/navigation";
+import { File, Folder, workspace } from "@/lib/supabase/supabase.types";
+import { useAppState } from "@/providers/StateProvider";
+import { useSupabaseUser } from "@/providers/SupabaseUserProvider";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useCallback, useMemo, useRef, useState } from "react";
+import { Button } from "../ui/button";
 
 interface QuillEditorProps {
   dirDetails: File | Folder | workspace;
@@ -19,6 +20,11 @@ interface QuillEditorProps {
   dirType: "workspace" | "folder" | "file";
 }
 
+interface QuillEditorProps {
+  dirDetails: File | Folder | workspace;
+  fileId: string;
+  dirType: "workspace" | "folder" | "file";
+}
 var TOOLBAR_OPTIONS = [
   ["bold", "italic", "underline", "strike"], // toggled buttons
   ["blockquote", "code-block"],
@@ -29,14 +35,14 @@ var TOOLBAR_OPTIONS = [
   [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
   [{ direction: "rtl" }], // text direction
 
-  [{ size: ["small", false, "large", "huge"] }],
+  [{ size: ["small", false, "large", "huge"] }], // custom dropdown
   [{ header: [1, 2, 3, 4, 5, 6, false] }],
 
-  [{ color: [] }, { background: [] }], 
+  [{ color: [] }, { background: [] }], // dropdown with defaults from theme
   [{ font: [] }],
   [{ align: [] }],
 
-  ["clean"],
+  ["clean"], // remove formatting button
 ];
 
 const QuillEditor: React.FC<QuillEditorProps> = ({
@@ -44,9 +50,19 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
   fileId,
   dirType,
 }) => {
+  const supabase = createClientComponentClient();
   const { state, workspaceId, folderId, dispatch } = useAppState();
-  const [quill, setQuill] = useState();
+  const saveTimerRef = useRef<ReturnType<typeof setTimeout>>();
+  const { user } = useSupabaseUser();
   const router = useRouter();
+  const pathname = usePathname();
+  const [quill, setQuill] = useState<any>(null);
+  const [collaborators, setCollaborators] = useState<
+    { id: string; email: string; avatarUrl: string }[]
+  >([]);
+  const [deletingBanner, setDeletingBanner] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [localCursors, setLocalCursors] = useState<any>([]);
 
   const details = useMemo(() => {
     let selectedDir;
@@ -201,11 +217,6 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
             <span className="text-sm text-white">{details.inTrash}</span>
           </article>
         )}
-      </div>
-      <div className="flex justify-center items-center flex-col mt-2 relative">
-        <div id="container" ref={wrapperRef} className="max-w-[800px]">
-          QuillEditor
-        </div>
       </div>
     </>
   );
