@@ -34,9 +34,10 @@ import {
 } from "../ui/tooltip";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { XCircleIcon } from "lucide-react";
-import EmojiPicker from "emoji-picker-react";
 import Image from "next/image";
 import { Badge } from "../ui/badge";
+import EmojiPicker from "../global/EmojiPicker";
+import BannerUpload from "../bannerUpload/BannerUpload";
 
 interface QuillEditorProps {
   dirDetails: File | Folder | workspace;
@@ -672,8 +673,34 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
         >
           {/* Emoji Picker */}
 
+          <div className="text-[80px]">
+            <EmojiPicker getValue={iconOnChange}>
+              <div
+                className="w-[100px]
+                cursor-pointer
+                transition-colors
+                h-[100px]
+                flex
+                items-center
+                justify-center
+                hover:bg-muted
+                rounded-xl"
+              >
+                {details.iconId}
+              </div>
+            </EmojiPicker>
+          </div>
           <div className="flex">
             {/* Banner Upload */}
+
+            <BannerUpload
+              details={details}
+              id={fileId}
+              dirType={dirType}
+              className="mt-2 text-sm text-muted-foreground p-2 hover:text-card-foreground transition-all rounded-md"
+            >
+              {details.bannerUrl ? "Update Banner" : "Add Banner"}
+            </BannerUpload>
 
             {details.bannerUrl && (
               <Button
