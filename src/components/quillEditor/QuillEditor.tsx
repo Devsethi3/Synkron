@@ -671,7 +671,6 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
        px-7 
        lg:my-8"
         >
-          {/* Emoji Picker */}
 
           <div className="text-[80px]">
             <EmojiPicker getValue={iconOnChange}>
@@ -691,7 +690,6 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
             </EmojiPicker>
           </div>
           <div className="flex">
-            {/* Banner Upload */}
 
             <BannerUpload
               details={details}
