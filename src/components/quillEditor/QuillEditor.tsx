@@ -636,6 +636,22 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
           </div>
         </div>
       </div>
+      {details.bannerUrl && (
+        <div className="relative w-full h-[200px]">
+          <Image
+            src={
+              supabase.storage
+                .from("file-banners")
+                .getPublicUrl(details.bannerUrl).data.publicUrl
+            }
+            fill
+            className="w-full md:h-48
+            h-20
+            object-cover"
+            alt="Banner Image"
+          />
+        </div>
+      )}
       <div
         className="flex 
       justify-center
@@ -654,11 +670,9 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
        px-7 
        lg:my-8"
         >
-
           {/* Emoji Picker */}
 
-          <div className="flex ">
-            
+          <div className="flex">
             {/* Banner Upload */}
 
             {details.bannerUrl && (
