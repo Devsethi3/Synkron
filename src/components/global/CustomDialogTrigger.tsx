@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import React from "react";
 import {
   Dialog,
   DialogContent,
@@ -6,22 +6,23 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog";
+} from "@/components/ui/dialog";
+import clsx from "clsx";
 
 interface CustomDialogTriggerProps {
   header?: string;
   content?: React.ReactNode;
   children: React.ReactNode;
   description?: string;
-  // footer?: string;
   className?: string;
 }
+
 const CustomDialogTrigger: React.FC<CustomDialogTriggerProps> = ({
   header,
-  children,
-  className,
   content,
+  children,
   description,
+  className,
 }) => {
   return (
     <Dialog>
