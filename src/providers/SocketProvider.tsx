@@ -19,6 +19,4 @@ export const useSocket = () => {
 export const SocketProvider = ({children}:{children: React.ReactNode}) => {
     const [socket, setSocket] = useState(null);
     const [isConnected, setIsConnected] = useState(false)
-
-    
 }
