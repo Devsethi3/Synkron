@@ -32,8 +32,6 @@ const HomePage = () => {
           from-primary
           to-brand-primaryPurple
           sm:w-[300px]
-          opacity-60
-          hover:opacity-90
           transition
           "
           >
