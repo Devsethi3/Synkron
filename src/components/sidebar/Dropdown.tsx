@@ -43,7 +43,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   const [isEditing, setIsEditing] = useState(false);
   const router = useRouter();
 
-  //folder Title synced with server data and local
+  
   const folderTitle: string | undefined = useMemo(() => {
     if (listType === "folder") {
       const stateTitle = state.workspaces
