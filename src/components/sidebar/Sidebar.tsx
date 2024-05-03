@@ -29,7 +29,6 @@ const Sidebar: React.FC<SidebarProps> = async ({ params, className }) => {
 
   if (!user) return;
 
-  //subscr
   const { data: subscriptionData, error: subscriptionError } =
     await getUserSubscriptionStatus(user.id);
 
