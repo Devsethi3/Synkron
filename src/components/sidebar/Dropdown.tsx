@@ -171,7 +171,7 @@ const Dropdown: React.FC<DropdownProps> = ({
     }
   };
 
-  //move to trash
+
   const moveToTrash = async () => {
     if (!user?.email || !workspaceId) return;
     const pathId = id.split("folder");
