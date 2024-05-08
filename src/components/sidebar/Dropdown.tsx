@@ -43,7 +43,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   const [isEditing, setIsEditing] = useState(false);
   const router = useRouter();
 
-  //folder Title synced with server data and local
+  
   const folderTitle: string | undefined = useMemo(() => {
     if (listType === "folder") {
       const stateTitle = state.workspaces
@@ -53,8 +53,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       return stateTitle;
     }
   }, [state, listType, workspaceId, id, title]);
-
-  //fileItitle
+  
 
   const fileTitle: string | undefined = useMemo(() => {
     if (listType === "file") {
@@ -68,7 +67,7 @@ const Dropdown: React.FC<DropdownProps> = ({
     }
   }, [state, listType, workspaceId, id, title]);
 
-  //Navigate the user to a different page
+  
   const navigatatePage = (accordionId: string, type: string) => {
     if (type === "folder") {
       router.push(`/dashboard/${workspaceId}/${accordionId}`);
@@ -82,11 +81,9 @@ const Dropdown: React.FC<DropdownProps> = ({
     }
   };
 
-  //double click handler
   const handleDoubleClick = () => {
     setIsEditing(true);
   };
-  //blur
 
   const handleBlur = async () => {
     if (!isEditing) return;
@@ -118,7 +115,6 @@ const Dropdown: React.FC<DropdownProps> = ({
     }
   };
 
-  //onchanges
   const onChangeEmoji = async (selectedEmoji: string) => {
     if (!workspaceId) return;
     if (listType === "folder") {
@@ -175,7 +171,7 @@ const Dropdown: React.FC<DropdownProps> = ({
     }
   };
 
-  //move to trash
+
   const moveToTrash = async () => {
     if (!user?.email || !workspaceId) return;
     const pathId = id.split("folder");
