@@ -99,7 +99,7 @@ const Signup = () => {
           justify-left
           items-center"
         >
-          <Image src="/logo.png" alt="synkron Logo" width={50} height={50} />
+          <Image src="/logo.png" alt="SYNKRON Logo" width={50} height={50} />
           <span
             className="font-semibold
           dark:text-white text-4xl first-letter:ml-2"
@@ -159,9 +159,10 @@ const Signup = () => {
               )}
             />
             <Button type="submit" className="w-full p-6" disabled={isLoading}>
-              Create Account
-              {!isLoading ? null : (
-                <TbLoader2 className="w-4 h-4 animate-spin ml-3" />
+              {!isLoading ? (
+                "Create Account"
+              ) : (
+                <TbLoader2 className="h-4 w-4 animate-spin ml-3" />
               )}
             </Button>
           </>
