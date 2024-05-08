@@ -5,29 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1714061880062,
-      "tag": "0000_aromatic_tiger_shark",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1714062124952,
-      "tag": "0001_cold_lyja",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1714062807179,
-      "tag": "0002_special_luckman",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1714063126253,
-      "tag": "0003_strong_hex",
+      "when": 1715171761068,
+      "tag": "0000_wandering_firedrake",
       "breakpoints": true
     }
   ]
