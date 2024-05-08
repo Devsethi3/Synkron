@@ -1,7 +1,6 @@
 "use client";
-
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,19 +13,21 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import Image from "next/image";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { TbLoader2 } from "react-icons/tb";
 import { actionLoginUser } from "@/lib/server-actions/authAction";
+import { TbLoader2 } from "react-icons/tb";
 
 const LoginPage = () => {
   const router = useRouter();
-  const [submitError, setSubmitError] = useState<string>("");
+  const [submitError, setSubmitError] = useState("");
 
   const form = useForm<z.infer<typeof FormSchema>>({
     mode: "onChange",
     resolver: zodResolver(FormSchema),
+    defaultValues: { email: "", password: "" },
   });
 
   const isLoading = form.formState.isSubmitting;
@@ -49,18 +50,29 @@ const LoginPage = () => {
           if (submitError) setSubmitError("");
         }}
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full sm:justify-center sm:w-[500px] space-y-6 flex flex-col"
+        className="w-full sm:justify-center sm:w-[400px] space-y-6 flex flex-col"
       >
         <Link
           href="/"
-          className="flex w-full gap-2 justify-center items-center"
+          className="
+          w-full
+          flex
+          justify-left
+          items-center"
         >
-          <span className="font-semibold text-3xl">SYNKRON</span>
+          <Image src="/logo.png" alt="synkron Logo" width={50} height={50} />
+          <span
+            className="font-semibold
+          dark:text-white text-4xl first-letter:ml-2"
+          >
+            SYNKRON.
+          </span>
         </Link>
-        <FormDescription className="text-foreground/60">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laudantium,
-          veniam ad! Ut iste, cum obcaecati adipisci sit expedita consectetur
-          quasi.
+        <FormDescription
+          className="
+        text-foreground/60"
+        >
+          An all-In-One Collaboration and Productivity Platform
         </FormDescription>
         <FormField
           disabled={isLoading}
@@ -69,8 +81,9 @@ const LoginPage = () => {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input type="email" placeholder="abc@gmail.com" {...field} />
+                <Input type="email" placeholder="Email" {...field} />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -83,6 +96,7 @@ const LoginPage = () => {
               <FormControl>
                 <Input type="password" placeholder="Password" {...field} />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -90,18 +104,17 @@ const LoginPage = () => {
         <Button
           type="submit"
           className="w-full p-6"
-          //   size="lg"
+          size="lg"
           disabled={isLoading}
         >
-          {!isLoading ? (
-            "Login"
-          ) : (
-            <TbLoader2 className="h-5 w-5 animate-spin" />
+          Login
+          {!isLoading ? null : (
+            <TbLoader2 className="w-4 h-4 ml-3 animate-spin" />
           )}
         </Button>
-        <span className="self-container flex items-center gap-3">
-          Don&apos;t have an account?
-          <Link href="/signup" className="underline text-primary">
+        <span className="self-container">
+          Dont have an account?{" "}
+          <Link href="/signup" className="text-primary">
             Sign Up
           </Link>
         </span>

@@ -18,7 +18,6 @@ import React, { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import Logo from "../../../../public/logo.png";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { MailCheck } from "lucide-react";
 import { FormSchema } from "@/lib/types";
@@ -70,7 +69,6 @@ const Signup = () => {
   });
 
   const isLoading = form.formState.isSubmitting;
-  
   const onSubmit = async ({ email, password }: z.infer<typeof FormSchema>) => {
     const { error } = await actionSignUpUser({ email, password });
     if (error) {
@@ -88,11 +86,9 @@ const Signup = () => {
           if (submitError) setSubmitError("");
         }}
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full sm:justify-center sm:w-[550px]
+        className="w-full sm:justify-center sm:w-[400px]
         space-y-6 flex
         flex-col
-        p-10
-        shadow-md
         "
       >
         <Link
@@ -100,23 +96,22 @@ const Signup = () => {
           className="
           w-full
           flex
-          justify-center
+          justify-left
           items-center"
         >
-          <Image src={Logo} alt="cypress Logo" width={40} height={40} />
+          <Image src="/logo.png" alt="synkron Logo" width={50} height={50} />
           <span
             className="font-semibold
-          dark:text-white text-3xl first-letter:ml-2"
+          dark:text-white text-4xl first-letter:ml-2"
           >
-            SYNKRON
+            SYNKRON.
           </span>
         </Link>
         <FormDescription
           className="
         text-foreground/60"
         >
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veniam,
-          voluptate delectus. Enim quo consectetur.
+          An all-In-One Collaboration and Productivity Platform
         </FormDescription>
         {!confirmation && !codeExchangeError && (
           <>
@@ -164,10 +159,9 @@ const Signup = () => {
               )}
             />
             <Button type="submit" className="w-full p-6" disabled={isLoading}>
-              {!isLoading ? (
-                "Create Account"
-              ) : (
-                <TbLoader2 className="h-4 w-4 animate-spin" />
+              Create Account
+              {!isLoading ? null : (
+                <TbLoader2 className="w-4 h-4 animate-spin ml-3" />
               )}
             </Button>
           </>
