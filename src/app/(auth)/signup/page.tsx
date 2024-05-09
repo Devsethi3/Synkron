@@ -1,4 +1,5 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -86,10 +87,7 @@ const Signup = () => {
           if (submitError) setSubmitError("");
         }}
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full sm:justify-center sm:w-[400px]
-        space-y-6 flex
-        flex-col
-        "
+        className="w-full sm:justify-center sm:w-[500px] space-y-6 flex flex-col"
       >
         <Link
           href="/"
@@ -98,8 +96,8 @@ const Signup = () => {
           flex
           justify-left
           items-center"
-        >
-          <Image src="/logo.png" alt="SYNKRON Logo" width={50} height={50} />
+        > 
+          <Image src="/logo.png" alt="synkron Logo" width={50} height={50} />
           <span
             className="font-semibold
           dark:text-white text-4xl first-letter:ml-2"
@@ -113,81 +111,50 @@ const Signup = () => {
         >
           An all-In-One Collaboration and Productivity Platform
         </FormDescription>
-        {!confirmation && !codeExchangeError && (
-          <>
-            <FormField
-              disabled={isLoading}
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input type="email" placeholder="Email" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              disabled={isLoading}
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input type="password" placeholder="Password" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              disabled={isLoading}
-              control={form.control}
-              name="confirmPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      type="password"
-                      placeholder="Confirm Password"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit" className="w-full p-6" disabled={isLoading}>
-              {!isLoading ? (
-                "Create Account"
-              ) : (
-                <TbLoader2 className="h-4 w-4 animate-spin ml-3" />
-              )}
-            </Button>
-          </>
-        )}
-
+        <FormField
+          disabled={isLoading}
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input type="email" placeholder="Email" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          disabled={isLoading}
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input type="password" placeholder="Password" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         {submitError && <FormMessage>{submitError}</FormMessage>}
+        <Button
+          type="submit"
+          className="w-full p-6"
+          size="lg"
+          disabled={isLoading}
+        >
+          Login
+          {!isLoading ? null : (
+            <TbLoader2 className="w-4 h-4 ml-3 animate-spin" />
+          )}
+        </Button>
         <span className="self-container">
-          Already have an account?{" "}
-          <Link href="/login" className="text-primary">
-            Login
+          Dont have an account?{" "}
+          <Link href="/signup" className="text-primary">
+            Sign Up
           </Link>
         </span>
-        {(confirmation || codeExchangeError) && (
-          <>
-            <Alert className={confirmationAndErrorStyles}>
-              {!codeExchangeError && <MailCheck className="h-4 w-4" />}
-              <AlertTitle>
-                {codeExchangeError ? "Invalid Link" : "Check your email."}
-              </AlertTitle>
-              <AlertDescription>
-                {codeExchangeError || "An email confirmation has been sent."}
-              </AlertDescription>
-            </Alert>
-          </>
-        )}
       </form>
     </Form>
   );
