@@ -1,4 +1,5 @@
 "use client";
+
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -22,7 +23,7 @@ import { TbLoader2 } from "react-icons/tb";
 
 const LoginPage = () => {
   const router = useRouter();
-  const [submitError, setSubmitError] = useState("");
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     mode: "onChange",
@@ -35,43 +36,38 @@ const LoginPage = () => {
   const onSubmit: SubmitHandler<z.infer<typeof FormSchema>> = async (
     formData
   ) => {
-    const { error } = await actionLoginUser(formData);
-    if (error) {
-      form.reset();
-      setSubmitError(error.message);
+    try {
+      const { data, error } = await actionLoginUser(formData);
+      if (error) {
+        form.reset();
+        setSubmitError(error.message);
+      } else if (!data) {
+        setSubmitError("Invalid email or password. Please try again.");
+      } else {
+        router.replace("/dashboard");
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+      setSubmitError("An unexpected error occurred. Please try again later.");
     }
-    router.replace("/dashboard");
   };
 
   return (
     <Form {...form}>
       <form
         onChange={() => {
-          if (submitError) setSubmitError("");
+          if (submitError) setSubmitError(null);
         }}
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full sm:justify-center sm:w-[400px] space-y-6 flex flex-col"
       >
-        <Link
-          href="/"
-          className="
-          w-full
-          flex
-          justify-left
-          items-center"
-        >
-          <Image src="/logo.png" alt="synkron Logo" width={50} height={50} />
-          <span
-            className="font-semibold
-          dark:text-white text-4xl first-letter:ml-2"
-          >
-            SYNKRON.
+        <Link href="/" className="w-full flex justify-left items-center">
+          <Image src="/logo.png" alt="cypress Logo" width={50} height={50} />
+          <span className="font-semibold dark:text-white text-4xl first-letter:ml-2">
+            cypress.
           </span>
         </Link>
-        <FormDescription
-          className="
-        text-foreground/60"
-        >
+        <FormDescription className="text-foreground/60">
           An all-In-One Collaboration and Productivity Platform
         </FormDescription>
         <FormField
@@ -107,13 +103,14 @@ const LoginPage = () => {
           size="lg"
           disabled={isLoading}
         >
-          Login
-          {!isLoading ? null : (
-            <TbLoader2 className="w-4 h-4 ml-3 animate-spin" />
+          {!isLoading ? (
+            "Login"
+          ) : (
+            <TbLoader2 className="w-4 h-4 animate-spin ml-2" />
           )}
         </Button>
         <span className="self-container">
-          Dont have an account?{" "}
+          Don't have an account?{" "}
           <Link href="/signup" className="text-primary">
             Sign Up
           </Link>
