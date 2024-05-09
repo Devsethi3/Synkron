@@ -14,8 +14,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import React, { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -43,9 +43,16 @@ const SignUpFormSchema = z
   });
 
 const Signup = () => {
-  const searchParams = useSearchParams();
+  const router = useRouter();
   const [submitError, setSubmitError] = useState("");
   const [confirmation, setConfirmation] = useState(false);
+  const [searchParams, setSearchParams] = useState<URLSearchParams | null>(
+    null
+  ); // Declare the type of searchParams
+
+  useEffect(() => {
+    setSearchParams(new URLSearchParams(window.location.search)); // Set searchParams only on the client side
+  }, []);
 
   const codeExchangeError = useMemo(() => {
     if (!searchParams) return "";
@@ -88,31 +95,15 @@ const Signup = () => {
           if (submitError) setSubmitError("");
         }}
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full sm:justify-center sm:w-[400px]
-      space-y-6 flex
-      flex-col
-      "
+        className="w-full sm:justify-center sm:w-[400px] space-y-6 flex flex-col"
       >
-        <Link
-          href="/"
-          className="
-        w-full
-        flex
-        justify-left
-        items-center"
-        >
+        <Link href="/" className="w-full flex justify-left items-center">
           <Image src="/logo.png" alt="cypress Logo" width={50} height={50} />
-          <span
-            className="font-semibold
-        dark:text-white text-4xl first-letter:ml-2"
-          >
+          <span className="font-semibold dark:text-white text-4xl first-letter:ml-2">
             cypress.
           </span>
         </Link>
-        <FormDescription
-          className="
-      text-foreground/60"
-        >
+        <FormDescription className="text-foreground/60">
           An all-In-One Collaboration and Productivity Platform
         </FormDescription>
         {!confirmation && !codeExchangeError && (
