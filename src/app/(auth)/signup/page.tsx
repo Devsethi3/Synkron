@@ -46,17 +46,19 @@ const Signup = () => {
   const router = useRouter();
   const [submitError, setSubmitError] = useState("");
   const [confirmation, setConfirmation] = useState(false);
-  const [searchParams, setSearchParams] = useState<URLSearchParams | null>(
-    null
-  ); // Declare the type of searchParams
+  const [searchParams, setSearchParams] = useState<string[]>([]); // Using string[] instead of URLSearchParams
 
   useEffect(() => {
-    setSearchParams(new URLSearchParams(window.location.search)); // Set searchParams only on the client side
+    setSearchParams(window.location.search.split("&")); // Split searchParams into an array of strings
   }, []);
 
   const codeExchangeError = useMemo(() => {
-    if (!searchParams) return "";
-    return searchParams.get("error_description");
+    if (searchParams.length === 0) return "";
+    const errorParam = searchParams.find((param) =>
+      param.includes("error_description=")
+    );
+    if (!errorParam) return "";
+    return decodeURIComponent(errorParam.split("=")[1]); // Extract error description and decodeURIComponent
   }, [searchParams]);
 
   const confirmationAndErrorStyles = useMemo(
@@ -95,7 +97,10 @@ const Signup = () => {
           if (submitError) setSubmitError("");
         }}
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full sm:justify-center sm:w-[400px] space-y-6 flex flex-col"
+        className="w-full sm:justify-center sm:w-[400px]
+      space-y-6 flex
+      flex-col
+      "
       >
         <Link href="/" className="w-full flex justify-left items-center">
           <Image src="/logo.png" alt="cypress Logo" width={50} height={50} />
