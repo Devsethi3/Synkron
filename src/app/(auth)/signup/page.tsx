@@ -49,7 +49,7 @@ const Signup = () => {
   const [searchParams, setSearchParams] = useState<string[]>([]);
 
   useEffect(() => {
-    setSearchParams(window.location.search.split("&")); // Split searchParams into an array of strings
+    setSearchParams(window.location.search.split("&"));
   }, []);
 
   const codeExchangeError = useMemo(() => {
