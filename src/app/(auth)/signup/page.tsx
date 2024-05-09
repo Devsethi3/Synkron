@@ -46,7 +46,7 @@ const Signup = () => {
   const router = useRouter();
   const [submitError, setSubmitError] = useState("");
   const [confirmation, setConfirmation] = useState(false);
-  const [searchParams, setSearchParams] = useState<string[]>([]); // Using string[] instead of URLSearchParams
+  const [searchParams, setSearchParams] = useState<string[]>([]);
 
   useEffect(() => {
     setSearchParams(window.location.search.split("&")); // Split searchParams into an array of strings
