@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Sans } from "next/font/google";
+import { Libre_Baskerville } from "next/font/google";
 import "./globals.css";
 import db from "@/lib/supabase/db";
 import { ThemeProvider } from "@/providers/NextThemeProvider";
@@ -9,7 +9,7 @@ import AppStateProvider from "@/providers/StateProvider";
 import { SupabaseUserProvider } from "@/providers/SupabaseUserProvider";
 import NextTopLoader from "nextjs-toploader";
 
-const font = DM_Sans({ subsets: ["latin"] });
+const font = Libre_Baskerville({ subsets: ["latin"], weight: ["400", "700"] });
 
 export const metadata: Metadata = {
   title: "Synkron | A Realtime Collaborative Platform",

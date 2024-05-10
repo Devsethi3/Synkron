@@ -14,8 +14,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -44,21 +44,13 @@ const SignUpFormSchema = z
 
 const Signup = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [submitError, setSubmitError] = useState("");
   const [confirmation, setConfirmation] = useState(false);
-  const [searchParams, setSearchParams] = useState<string[]>([]);
-
-  useEffect(() => {
-    setSearchParams(window.location.search.split("&"));
-  }, []);
 
   const codeExchangeError = useMemo(() => {
-    if (searchParams.length === 0) return "";
-    const errorParam = searchParams.find((param) =>
-      param.includes("error_description=")
-    );
-    if (!errorParam) return "";
-    return decodeURIComponent(errorParam.split("=")[1]); 
+    if (!searchParams) return "";
+    return searchParams.get("error_description");
   }, [searchParams]);
 
   const confirmationAndErrorStyles = useMemo(
@@ -88,8 +80,6 @@ const Signup = () => {
     setConfirmation(true);
   };
 
-  console.log("Confirmation", confirmation);
-
   return (
     <Form {...form}>
       <form
@@ -98,17 +88,30 @@ const Signup = () => {
         }}
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full sm:justify-center sm:w-[400px]
-      space-y-6 flex
-      flex-col
-      "
+        space-y-6 flex
+        flex-col
+        "
       >
-        <Link href="/" className="w-full flex justify-left items-center">
+        <Link
+          href="/"
+          className="
+          w-full
+          flex
+          justify-left
+          items-center"
+        >
           <Image src="/logo.png" alt="cypress Logo" width={50} height={50} />
-          <span className="font-semibold dark:text-white text-4xl first-letter:ml-2">
+          <span
+            className="font-semibold
+          dark:text-white text-4xl first-letter:ml-2"
+          >
             cypress.
           </span>
         </Link>
-        <FormDescription className="text-foreground/60">
+        <FormDescription
+          className="
+        text-foreground/60"
+        >
           An all-In-One Collaboration and Productivity Platform
         </FormDescription>
         {!confirmation && !codeExchangeError && (
@@ -157,11 +160,7 @@ const Signup = () => {
               )}
             />
             <Button type="submit" className="w-full p-6" disabled={isLoading}>
-              {!isLoading ? (
-                "Create Account"
-              ) : (
-                <TbLoader2 className="w-4 h-4 animate-spin" />
-              )}
+              {!isLoading ? "Create Account" : <TbLoader2 className="h-4 w-4 animate-spin ml-2" />}
             </Button>
           </>
         )}
