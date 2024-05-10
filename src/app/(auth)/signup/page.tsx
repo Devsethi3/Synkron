@@ -160,7 +160,10 @@ const Signup = () => {
               )}
             />
             <Button type="submit" className="w-full p-6" disabled={isLoading}>
-              {!isLoading ? "Create Account" : <TbLoader2 className="h-4 w-4 animate-spin ml-2" />}
+              Create Account{" "}
+              {!isLoading ? null : (
+                <TbLoader2 className="h-4 w-4 animate-spin ml-2" />
+              )}
             </Button>
           </>
         )}
