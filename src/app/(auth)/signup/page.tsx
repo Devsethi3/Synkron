@@ -58,7 +58,7 @@ const Signup = () => {
       param.includes("error_description=")
     );
     if (!errorParam) return "";
-    return decodeURIComponent(errorParam.split("=")[1]); // Extract error description and decodeURIComponent
+    return decodeURIComponent(errorParam.split("=")[1]); // Extract error description
   }, [searchParams]);
 
   const confirmationAndErrorStyles = useMemo(
