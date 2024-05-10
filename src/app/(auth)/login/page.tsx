@@ -103,9 +103,8 @@ const LoginPage = () => {
           size="lg"
           disabled={isLoading}
         >
-          {!isLoading ? (
-            "Login"
-          ) : (
+          Login
+          {!isLoading ? null : (
             <TbLoader2 className="w-4 h-4 animate-spin ml-2" />
           )}
         </Button>
