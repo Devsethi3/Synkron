@@ -670,14 +670,18 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
         self-center 
         max-w-[800px] 
         flex 
+        justify-between
         items-center
-         px-7 
-         lg:my-8"
+         border-t
+         pt-2
+         pb-[-1rem]
+         lg:my-4"
         >
-          <div className="text-[80px]">
-            <EmojiPicker getValue={iconOnChange}>
-              <div
-                className="w-[100px]
+          <div className="flex items-center gap-5">
+            <div className="text-[60px]">
+              <EmojiPicker getValue={iconOnChange}>
+                <div
+                  className="w-[100px]
                 cursor-pointer
                 transition-colors
                 h-[100px]
@@ -686,12 +690,28 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
                 justify-center
                 hover:bg-muted
                 rounded-xl"
+                >
+                  {details.iconId}
+                </div>
+              </EmojiPicker>
+            </div>
+            <div className="flex flex-col">
+              <h2
+                className="
+            text-muted-foreground
+            text-3xl
+            font-bold
+            h-9
+          "
               >
-                {details.iconId}
-              </div>
-            </EmojiPicker>
+                {details.title}
+              </h2>
+              <span className="text-muted-foreground text-sm">
+                {dirType.toUpperCase()}
+              </span>
+            </div>
           </div>
-          {/* <div className="flex ">
+          <div className="flex ">
             <BannerUpload
               id={fileId}
               dirType={dirType}
@@ -727,21 +747,6 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
                 </span>
               </Button>
             )}
-          </div> */}
-          <div className="flex flex-col">
-            <h2
-              className="
-            text-muted-foreground
-            text-3xl
-            font-bold
-            h-9
-          "
-            >
-              {details.title}
-            </h2>
-            <span className="text-muted-foreground text-sm">
-              {dirType.toUpperCase()}
-            </span>
           </div>
         </div>
         <div
