@@ -1,15 +1,17 @@
+export const dynamic = "force-dynamic";
+
 import type { Metadata } from "next";
-import { Libre_Baskerville } from "next/font/google";
 import "./globals.css";
-import db from "@/lib/supabase/db";
-import { ThemeProvider } from "@/providers/NextThemeProvider";
+import { ThemeProvider } from "@/lib/providers/next-theme-provider";
+import { Lexend } from "next/font/google";
 import { twMerge } from "tailwind-merge";
+import AppStateProvider from "@/lib/providers/state-provider";
+import { SupabaseUserProvider } from "@/lib/providers/supabase-user-provider";
 import { Toaster } from "@/components/ui/toaster";
-import AppStateProvider from "@/providers/StateProvider";
-import { SupabaseUserProvider } from "@/providers/SupabaseUserProvider";
+import { SocketProvider } from "@/lib/providers/socket-provider";
 import NextTopLoader from "nextjs-toploader";
 
-const font = Libre_Baskerville({ subsets: ["latin"], weight: ["400", "700"] });
+const font = Lexend({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Synkron | A Realtime Collaborative Platform",
@@ -18,38 +20,40 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
-  console.log(db);
-
+}) {
   return (
     <html lang="en">
       <head>
         <link rel="shortcut icon" href="/logo.png" type="image/x-icon" />
       </head>
       <body className={twMerge("bg-background", font.className)}>
-        <AppStateProvider>
-          <SupabaseUserProvider>
-            <NextTopLoader
-              color="#7C3AED"
-              crawlSpeed={200}
-              height={4}
-              crawl={true}
-              showSpinner={false}
-              easing="ease"
-            />
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="dark"
-              enableSystem
-              disableTransitionOnChange
-            >
-              <Toaster />
-              {children}
-            </ThemeProvider>
-          </SupabaseUserProvider>
-        </AppStateProvider>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <AppStateProvider>
+            <SupabaseUserProvider>
+              <SocketProvider>
+                <NextTopLoader
+                  color="#7C3AED"
+                  crawlSpeed={200}
+                  height={4}
+                  crawl={true}
+                  showSpinner={false}
+                  easing="ease"
+                />
+                <ThemeProvider
+                  attribute="class"
+                  defaultTheme="dark"
+                  enableSystem
+                  disableTransitionOnChange
+                >
+                  <Toaster />
+                  {children}
+                </ThemeProvider>
+              </SocketProvider>
+            </SupabaseUserProvider>
+          </AppStateProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

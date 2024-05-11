@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
-import ThemeSwitcher from "./ThemeSwitcher";
+import ThemeSwitcher from "../global/ThemeSwitcher";
 
 const routes = [
   { title: "Features", href: "#features" },

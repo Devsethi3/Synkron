@@ -1,5 +1,4 @@
 "use client";
-
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -16,14 +15,16 @@ import {
 } from "@/components/ui/form";
 import Link from "next/link";
 import Image from "next/image";
+import Logo from "../../../../public/logo.png";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { actionLoginUser } from "@/lib/server-actions/authAction";
-import { TbLoader2 } from "react-icons/tb";
+import { Separator } from "@/components/ui/separator";
+import { actionLoginUser } from "@/lib/server-actions/auth-actions";
+import { Loader } from "lucide-react";
 
 const LoginPage = () => {
   const router = useRouter();
-  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitError, setSubmitError] = useState("");
 
   const form = useForm<z.infer<typeof FormSchema>>({
     mode: "onChange",
@@ -36,38 +37,43 @@ const LoginPage = () => {
   const onSubmit: SubmitHandler<z.infer<typeof FormSchema>> = async (
     formData
   ) => {
-    try {
-      const { data, error } = await actionLoginUser(formData);
-      if (error) {
-        form.reset();
-        setSubmitError(error.message);
-      } else if (!data) {
-        setSubmitError("Invalid email or password. Please try again.");
-      } else {
-        router.replace("/dashboard");
-      }
-    } catch (error) {
-      console.error("Error during login:", error);
-      setSubmitError("An unexpected error occurred. Please try again later.");
+    const { error } = await actionLoginUser(formData);
+    if (error) {
+      form.reset();
+      setSubmitError(error.message);
     }
+    router.replace("/dashboard");
   };
 
   return (
     <Form {...form}>
       <form
         onChange={() => {
-          if (submitError) setSubmitError(null);
+          if (submitError) setSubmitError("");
         }}
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full sm:justify-center sm:w-[400px] space-y-6 flex flex-col"
       >
-        <Link href="/" className="w-full flex justify-left items-center">
-          <Image src="/logo.png" alt="cypress Logo" width={50} height={50} />
-          <span className="font-semibold dark:text-white text-4xl first-letter:ml-2">
+        <Link
+          href="/"
+          className="
+          w-full
+          flex
+          justify-left
+          items-center"
+        >
+          <Image src={Logo} alt="synkron Logo" width={50} height={50} />
+          <span
+            className="font-semibold
+          dark:text-white text-4xl first-letter:ml-2"
+          >
             SYNKRON
           </span>
         </Link>
-        <FormDescription className="text-foreground/60">
+        <FormDescription
+          className="
+        text-foreground/60"
+        >
           An all-In-One Collaboration and Productivity Platform
         </FormDescription>
         <FormField
@@ -104,12 +110,10 @@ const LoginPage = () => {
           disabled={isLoading}
         >
           Login
-          {!isLoading ? null : (
-            <TbLoader2 className="w-4 h-4 animate-spin ml-2" />
-          )}
+          {!isLoading ? null : <Loader className="h-4 w-4 animate-spin ml-2" />}
         </Button>
         <span className="self-container">
-          Don't have an account?{" "}
+          Dont have an account?{" "}
           <Link href="/signup" className="text-primary">
             Sign Up
           </Link>

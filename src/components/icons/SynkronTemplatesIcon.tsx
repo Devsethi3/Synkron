@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
-interface SynkronIconProps {}
-const SynkronIcon: FC<SynkronIconProps> = () => {
+interface SynkronTemplateIconProps {}
+const SynkronTemplateIcon: FC<SynkronTemplateIconProps> = () => {
   return (
     <svg
       width="24"
@@ -26,4 +26,4 @@ const SynkronIcon: FC<SynkronIconProps> = () => {
   );
 };
 
-export default SynkronIcon;
+export default SynkronTemplateIcon;

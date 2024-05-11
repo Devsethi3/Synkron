@@ -1,21 +1,13 @@
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 
-import QuillEditor from "@/components/quillEditor/QuillEditor";
-import { getWorkspaceDetails } from "@/lib/supabase/queries";
-import { redirect } from "next/navigation";
+import QuillEditor from '@/components/quillEditor/QuillEditor';
+import { getWorkspaceDetails } from '@/lib/supabase/queries';
+import { redirect } from 'next/navigation';
+import React from 'react';
 
-interface WorkspacePageProps {
-  params: string;
-}
-
-const WorkspacePage = async ({
-  params,
-}: {
-  params: { workspaceId: string };
-}) => {
+const Workspace = async ({ params }: { params: { workspaceId: string } }) => {
   const { data, error } = await getWorkspaceDetails(params.workspaceId);
-  if (error || !data.length) redirect("dashbaord");
-
+  if (error || !data.length) redirect('/dashboard');
   return (
     <div className="relative">
       <QuillEditor
@@ -27,4 +19,4 @@ const WorkspacePage = async ({
   );
 };
 
-export default WorkspacePage;
+export default Workspace;

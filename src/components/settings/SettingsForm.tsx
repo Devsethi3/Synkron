@@ -1,10 +1,10 @@
 "use client";
 
-import { useAppState } from "@/providers/StateProvider";
+import React, { useEffect, useRef, useState } from "react";
 import { useToast } from "../ui/use-toast";
-import { useEffect, useRef, useState } from "react";
+import { useAppState } from "@/lib/providers/state-provider";
 import { User, workspace } from "@/lib/supabase/supabase.types";
-import { useSupabaseUser } from "@/providers/SupabaseUserProvider";
+import { useSupabaseUser } from "@/lib/providers/supabase-user-provider";
 import { useRouter } from "next/navigation";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import {
@@ -15,11 +15,11 @@ import {
   LogOut,
   Plus,
   Share,
-  UserIcon,
+  User as UserIcon,
 } from "lucide-react";
-import { Label } from "@radix-ui/react-label";
 import { Separator } from "../ui/separator";
-import { v4 } from "uuid";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
 import {
   addCollaborators,
   deleteWorkspace,
@@ -27,7 +27,7 @@ import {
   removeCollaborators,
   updateWorkspace,
 } from "@/lib/supabase/queries";
-import { Input } from "../ui/input";
+import { v4 } from "uuid";
 import {
   Select,
   SelectContent,
@@ -35,21 +35,34 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from "@/components/ui/select";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+
+import CollaboratorSearch from "../global/CollaboratorSearch";
 import { Button } from "../ui/button";
 import { ScrollArea } from "../ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Alert, AlertDescription } from "../ui/alert";
-import SynkronProfileIcon from "../icons/SynkronProfileIcon";
 import LogoutButton from "../global/LogoutButton";
 import Link from "next/link";
+import { useSubscriptionModal } from "@/lib/providers/subscription-modal-provider";
 import { postData } from "@/lib/utils";
-import CollaboratorSearch from "../global/CollaboratorSearch";
+import SynkronProfileIcon from "../icons/SynkronProfileIcon";
 
 const SettingsForm = () => {
   const { toast } = useToast();
   const { user, subscription } = useSupabaseUser();
-  // const { open, setOpen } = useSubscriptionModal();
+  const { open, setOpen } = useSubscriptionModal();
   const router = useRouter();
   const supabase = createClientComponentClient();
   const { state, workspaceId, dispatch } = useAppState();
@@ -81,7 +94,7 @@ const SettingsForm = () => {
   const addCollaborator = async (profile: User) => {
     if (!workspaceId) return;
     if (subscription?.status !== "active" && collaborators.length >= 2) {
-      // setOpen(true);
+      setOpen(true);
       return;
     }
     await addCollaborators([profile], workspaceId);
@@ -208,10 +221,14 @@ const SettingsForm = () => {
           accept="image/*"
           placeholder="Workspace Logo"
           onChange={onChangeWorkspaceLogo}
-          disabled={uploadingLogo}
+          disabled={uploadingLogo || subscription?.status !== "active"}
         />
+        {subscription?.status !== "active" && (
+          <small className="text-muted-foreground">
+            To customize your workspace, you need to be on a Pro Plan
+          </small>
+        )}
       </div>
-
       <>
         <Label htmlFor="permissions">Permissions</Label>
         <Select onValueChange={onPermissionsChange} value={permissions}>
@@ -307,7 +324,7 @@ const SettingsForm = () => {
                       </div>
                       <Button
                         variant="secondary"
-                        // onClick={() => removeCollaborator(c)}
+                        onClick={() => removeCollaborator(c)}
                       >
                         Remove
                       </Button>
@@ -385,7 +402,7 @@ const SettingsForm = () => {
               accept="image/*"
               placeholder="Profile Picture"
               // onChange={onChangeProfilePicture}
-              // disabled={uploadingProfilePic}
+              disabled={uploadingProfilePic}
             />
           </div>
         </div>
@@ -398,10 +415,10 @@ const SettingsForm = () => {
           <CreditCard size={20} /> Billing & Plan
         </p>
         <Separator />
-        {/* <p className="text-muted-foreground">
+        <p className="text-muted-foreground">
           You are currently on a{" "}
           {subscription?.status === "active" ? "Pro" : "Free"} Plan
-        </p> */}
+        </p>
         <Link
           href="/"
           target="_blank"
@@ -409,7 +426,7 @@ const SettingsForm = () => {
         >
           View Plans <ExternalLink size={16} />
         </Link>
-        {/* {subscription?.status === "active" ? (
+        {subscription?.status === "active" ? (
           <div>
             <Button
               type="button"
@@ -434,8 +451,27 @@ const SettingsForm = () => {
               Start Plan
             </Button>
           </div>
-        )} */}
+        )}
       </>
+      <AlertDialog open={openAlertMessage}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDescription>
+              Changing a Shared workspace to a Private workspace will remove all
+              collaborators permanantly.
+            </AlertDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setOpenAlertMessage(false)}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction onClick={onClickAlertConfirm}>
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

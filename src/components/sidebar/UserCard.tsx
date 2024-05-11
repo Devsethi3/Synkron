@@ -4,10 +4,10 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import db from "@/lib/supabase/db";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import ModeToggle from "../global/ThemeSwitcher";
 import { LogOut } from "lucide-react";
-import SynkronProfileIcon from "../icons/SynkronProfileIcon";
-import ThemeSwitcher from "../landingPage/ThemeSwitcher";
 import LogoutButton from "../global/LogoutButton";
+import SynkronProfileIcon from "../icons/SynkronProfileIcon";
 
 interface UserCardProps {
   subscription: Subscription | null;
@@ -73,7 +73,7 @@ const UserCard: React.FC<UserCardProps> = async ({ subscription }) => {
         <LogoutButton>
           <LogOut />
         </LogoutButton>
-        <ThemeSwitcher />
+        <ModeToggle />
       </div>
     </article>
   );

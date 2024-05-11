@@ -1,17 +1,16 @@
 "use client";
-
-import { MAX_FOLDERS_FREE_PLAN } from "@/lib/constant";
+import { MAX_FOLDERS_FREE_PLAN } from "@/lib/constants";
+import { useAppState } from "@/lib/providers/state-provider";
 import { Subscription } from "@/lib/supabase/supabase.types";
-import { useAppState } from "@/providers/StateProvider";
 import React, { useEffect, useState } from "react";
 import { Progress } from "../ui/progress";
-import Image from "next/image";
-import Diamond from "../../../public/icons/diamond.svg";
+import SynkronDiamondIcon from "../icons/SynkronDiamondIcon";
 
 interface PlanUsageProps {
   foldersLength: number;
   subscription: Subscription | null;
 }
+
 const PlanUsage: React.FC<PlanUsageProps> = ({
   foldersLength,
   subscription,
@@ -25,33 +24,38 @@ const PlanUsage: React.FC<PlanUsageProps> = ({
     const stateFoldersLength = state.workspaces.find(
       (workspace) => workspace.id === workspaceId
     )?.folders.length;
-
     if (stateFoldersLength === undefined) return;
-
     setUsagePercentage((stateFoldersLength / MAX_FOLDERS_FREE_PLAN) * 100);
-  }, []);
+  }, [state, workspaceId]);
 
   return (
     <article className="mb-4">
       {subscription?.status !== "active" && (
-        <div className="flex gap-2 text-sm font-medium mb-2 items-center">
-          <div className="h-4 w-4 relative">
-            <Image
-              src={Diamond}
-              alt="Pro Plan Icon"
-              fill
-              // className="absolute top-6 right-6"
-            />
+        <div
+          className="flex 
+          gap-2
+          text-muted-foreground
+          mb-2
+          items-center
+        "
+        >
+          <div className="h-4 w-4">
+            <SynkronDiamondIcon />
           </div>
-          <div className="flex justify-between w-full items-center">
-            <p>Free Plan</p>
+          <div
+            className="flex 
+        justify-between 
+        w-full 
+        items-center
+        "
+          >
+            <div>Free Plan</div>
             <small>{usagePercentage.toFixed(0)}% / 100%</small>
           </div>
         </div>
       )}
-
       {subscription?.status !== "active" && (
-        <Progress value={usagePercentage} className="h-2" />
+        <Progress value={usagePercentage} className="h-1" />
       )}
     </article>
   );

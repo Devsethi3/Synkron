@@ -1,6 +1,5 @@
 import TitleSection from "@/components/landingPage/TitleSection";
 import { Button } from "@/components/ui/button";
-import { CLIENTS, PRICING_CARDS, PRICING_PLANS, USERS } from "@/lib/constant";
 import Image from "next/image";
 import Cal from "../../../public/cal.png";
 import { randomUUID } from "crypto";
@@ -12,11 +11,12 @@ import { CardContent, CardDescription, CardTitle } from "@/components/ui/card";
 import Diamond from "../../../public/icons/diamond.svg";
 import CheckIcon from "../../../public/icons/check.svg";
 import Header from "@/components/landingPage/Header";
+import { CLIENTS, PRICING_CARDS, PRICING_PLANS, USERS } from "@/lib/constants";
 
 const HomePage = () => {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <div className="px-4 py-24 w-full min-h-screen">
         <section className="flex items-center flex-col justify-center">
           <TitleSection
@@ -48,7 +48,7 @@ const HomePage = () => {
             </Button>
           </div>
           <div className="mt-[-100px] -z-10 relative w-[1300px] h-[90vh]">
-            <Image src="/appBanner.png" fill alt="Application banner" />
+            <Image src="/appBanner.png" fill objectFit="cover" alt="Application banner" />
             <div className="bottom-0 top-[50%] bg-gradient-to-t dark:from-background left-0 right-0 absolute z-10"></div>
           </div>
         </section>

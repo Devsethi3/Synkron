@@ -1,5 +1,4 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -20,10 +19,9 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { MailCheck } from "lucide-react";
+import { Loader, MailCheck } from "lucide-react";
 import { FormSchema } from "@/lib/types";
-import { TbLoader2 } from "react-icons/tb";
-import { actionSignUpUser } from "@/lib/server-actions/authAction";
+import { actionSignUpUser } from "@/lib/server-actions/auth-actions";
 
 const SignUpFormSchema = z
   .object({
@@ -100,12 +98,12 @@ const Signup = () => {
           justify-left
           items-center"
         >
-          <Image src="/logo.png" alt="cypress Logo" width={50} height={50} />
+          <Image src="/logo.png" alt="Synkron Logo" width={50} height={50} />
           <span
             className="font-semibold
           dark:text-white text-4xl first-letter:ml-2"
           >
-            cypress.
+            SYNKRON
           </span>
         </Link>
         <FormDescription
@@ -160,9 +158,9 @@ const Signup = () => {
               )}
             />
             <Button type="submit" className="w-full p-6" disabled={isLoading}>
-              Create Account{" "}
+              Create Account
               {!isLoading ? null : (
-                <TbLoader2 className="h-4 w-4 animate-spin ml-2" />
+                <Loader className="h-4 w-4 animate-spin ml-2" />
               )}
             </Button>
           </>

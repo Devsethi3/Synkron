@@ -1,20 +1,22 @@
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import React from 'react';
+
+import { cookies } from 'next/headers';
 import {
   getCollaboratingWorkspaces,
   getFolders,
   getPrivateWorkspaces,
   getSharedWorkspaces,
   getUserSubscriptionStatus,
-} from "@/lib/supabase/queries";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import { twMerge } from "tailwind-merge";
-import WorkspaceDropdown from "./WorkspaceDropdown";
-import PlanUsage from "./PlanUsage";
-import NativeNavigation from "./NativeNavigation";
-import { ScrollArea } from "../ui/scroll-area";
-import FoldersDropdownList from "./FoldersDropdownList";
-import UserCard from "./UserCard";
+} from '@/lib/supabase/queries';
+import { redirect } from 'next/navigation';
+import { twMerge } from 'tailwind-merge';
+import WorkspaceDropdown from './WorkspaceDropdown';
+import PlanUsage from './PlanUsage';
+import NativeNavigation from './NativeNavigation';
+import { ScrollArea } from '../ui/scroll-area';
+import FoldersDropdownList from './FoldersDropdownList';
+import UserCard from './UserCard';
 
 interface SidebarProps {
   params: { workspaceId: string };
@@ -23,12 +25,14 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = async ({ params, className }) => {
   const supabase = createServerComponentClient({ cookies });
+  //user
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   if (!user) return;
 
+  //subscr
   const { data: subscriptionData, error: subscriptionError } =
     await getUserSubscriptionStatus(user.id);
 
@@ -37,7 +41,7 @@ const Sidebar: React.FC<SidebarProps> = async ({ params, className }) => {
     params.workspaceId
   );
   //error
-  if (subscriptionError || foldersError) redirect("/dashboard");
+  if (subscriptionError || foldersError) redirect('/dashboard');
 
   const [privateWorkspaces, collaboratingWorkspaces, sharedWorkspaces] =
     await Promise.all([
@@ -46,35 +50,37 @@ const Sidebar: React.FC<SidebarProps> = async ({ params, className }) => {
       getSharedWorkspaces(user.id),
     ]);
 
+  //get all the different workspaces private collaborating shared
   return (
     <aside
       className={twMerge(
-        "hidden sm:flex sm:flex-col w-[280px] shrink-0 p-4 md:gap-4",
+        'hidden sm:flex sm:flex-col w-[280px] shrink-0 p-4 md:gap-4 !justify-between',
         className
       )}
     >
-      <WorkspaceDropdown
-        privateWorkspaces={privateWorkspaces}
-        collaboratingWorkspaces={collaboratingWorkspaces}
-        sharedWorkspaces={sharedWorkspaces}
-        defaultValue={[
-          ...privateWorkspaces,
-          ...collaboratingWorkspaces,
-          ...sharedWorkspaces,
-        ].find((workspace) => workspace.id === params.workspaceId)}
-      />
-      <PlanUsage
-        foldersLength={workspaceFolderData?.length || 0}
-        subscription={subscriptionData}
-      />
-      <NativeNavigation myWorkspaceId={params.workspaceId} />
-      <ScrollArea
-        className="overflow-scroll relative
-          h-[450px]
+      <div>
+        <WorkspaceDropdown
+          privateWorkspaces={privateWorkspaces}
+          sharedWorkspaces={sharedWorkspaces}
+          collaboratingWorkspaces={collaboratingWorkspaces}
+          defaultValue={[
+            ...privateWorkspaces,
+            ...collaboratingWorkspaces,
+            ...sharedWorkspaces,
+          ].find((workspace) => workspace.id === params.workspaceId)}
+        />
+        <PlanUsage
+          foldersLength={workspaceFolderData?.length || 0}
+          subscription={subscriptionData}
+        />
+        <NativeNavigation myWorkspaceId={params.workspaceId} />
+        <ScrollArea
+          className="overflow-scroll relative
+          h-[370px]
         "
-      >
-        <div
-          className="pointer-events-none 
+        >
+          <div
+            className="pointer-events-none 
           w-full 
           absolute 
           bottom-0 
@@ -83,12 +89,13 @@ const Sidebar: React.FC<SidebarProps> = async ({ params, className }) => {
           from-background 
           to-transparent 
           z-40"
-        />
-        <FoldersDropdownList
-          workspaceFolders={workspaceFolderData || []}
-          workspaceId={params.workspaceId}
-        />
-      </ScrollArea>
+          />
+          <FoldersDropdownList
+            workspaceFolders={workspaceFolderData || []}
+            workspaceId={params.workspaceId}
+          />
+        </ScrollArea>
+      </div>
       <UserCard subscription={subscriptionData} />
     </aside>
   );

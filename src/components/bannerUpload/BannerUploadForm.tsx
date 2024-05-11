@@ -1,5 +1,10 @@
 "use client";
-
+import {
+  appFoldersType,
+  appWorkspacesType,
+  useAppState,
+} from "@/lib/providers/state-provider";
+import { Folder, workspace } from "@/lib/supabase/supabase.types";
 import { UploadBannerFormSchema } from "@/lib/types";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import React from "react";
@@ -13,8 +18,7 @@ import {
   updateFolder,
   updateWorkspace,
 } from "@/lib/supabase/queries";
-import { useAppState } from "@/providers/StateProvider";
-import { TbLoader2 } from "react-icons/tb";
+import { Loader } from "lucide-react";
 
 interface BannerUploadFormProps {
   dirType: "workspace" | "file" | "folder";
@@ -108,11 +112,8 @@ const BannerUploadForm: React.FC<BannerUploadFormProps> = ({ dirType, id }) => {
         {errors.banner?.message?.toString()}
       </small>
       <Button disabled={isUploading} type="submit">
-        {!isUploading ? (
-          "Upload Banner"
-        ) : (
-          <TbLoader2 className="w-4 h-4 animate-spin" />
-        )}
+        Upload Banner
+        {!isUploading ? null : <Loader className="h-4 w-4 animate-spin ml-2" />}
       </Button>
     </form>
   );

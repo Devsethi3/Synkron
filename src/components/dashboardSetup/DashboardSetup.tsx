@@ -10,20 +10,20 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import EmojiPicker from "@/components/global/EmojiPicker";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+} from "../ui/card";
+import EmojiPicker from "../global/EmojiPicker";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
 import { Subscription, workspace } from "@/lib/supabase/supabase.types";
-import { Button } from "@/components/ui/button";
+import { Button } from "../ui/button";
 import { createWorkspace } from "@/lib/supabase/queries";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "../ui/use-toast";
 import { useRouter } from "next/navigation";
-import { useAppState } from "@/providers/StateProvider";
+import { useAppState } from "@/lib/providers/state-provider";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { CreateWorkspaceFormSchema } from "@/lib/types";
 import { z } from "zod";
-import { TbLoader2 } from "react-icons/tb";
+import { Loader } from "lucide-react";
 
 interface DashboardSetupProps {
   user: AuthUser;
@@ -111,12 +111,12 @@ const DashboardSetup: React.FC<DashboardSetupProps> = ({
         variant: "destructive",
         title: "Could not create your workspace",
         description:
-          "Oops! Something went wrong, Try again or come back later.",
+          "Oops! Something went wrong, and we couldn't create your workspace. Try again or come back later.",
       });
     } finally {
       reset();
     }
-  };  
+  };
 
   return (
     <Card
@@ -182,6 +182,7 @@ const DashboardSetup: React.FC<DashboardSetupProps> = ({
                 type="file"
                 accept="image/*"
                 placeholder="Workspace Name"
+                // disabled={isLoading || subscription?.status !== 'active'}
                 {...register("logo", {
                   required: false,
                 })}
@@ -202,10 +203,9 @@ const DashboardSetup: React.FC<DashboardSetupProps> = ({
             </div>
             <div className="self-end">
               <Button disabled={isLoading} type="submit">
-                {!isLoading ? (
-                  "Create Workspace"
-                ) : (
-                  <TbLoader2 className="h-4 w-4 animate-spin" />
+                Create Workspace
+                {!isLoading ? null : (
+                  <Loader className="w-4 h-4 animate-spin ml-2" />
                 )}
               </Button>
             </div>

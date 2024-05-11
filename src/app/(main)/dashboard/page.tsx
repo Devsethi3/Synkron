@@ -1,11 +1,11 @@
-import React from "react";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import React from 'react';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 
-import { cookies } from "next/headers";
-import db from "@/lib/supabase/db";
-import { redirect } from "next/navigation";
-import { getUserSubscriptionStatus } from "@/lib/supabase/queries";
-import DashboardSetup from "../_components/DashbaordSetup";
+import { cookies } from 'next/headers';
+import db from '@/lib/supabase/db';
+import { redirect } from 'next/navigation';
+import DashboardSetup from '@/components/dashboardSetup/DashboardSetup';
+import { getUserSubscriptionStatus } from '@/lib/supabase/queries';
 
 const DashboardPage = async () => {
   const supabase = createServerComponentClient({ cookies });
@@ -36,7 +36,10 @@ const DashboardPage = async () => {
         items-center
   "
       >
-        <DashboardSetup user={user} subscription={subscription} />
+        <DashboardSetup
+          user={user}
+          subscription={subscription}
+        />
       </div>
     );
 

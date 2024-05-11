@@ -11,19 +11,13 @@ body {
   display: none;
 }
 
-.container {
-  max-width: 1380px;
-  margin-inline: auto;
-  padding-inline: 0.75rem;
-}
-
 .loader {
   width: 4rem;
   height: 4rem;
   border-radius: 50%;
   box-sizing: border-box;
-  border-top: 8px solid #7C3AED;
-  border-left: 8px solid #7C3AED;
+  border-top: 8px solid #7c3aed;
+  border-left: 8px solid #7c3aed;
   border-right: 8px solid #ff00;
   animation: loader 0.7s infinite linear;
 }
@@ -91,7 +85,7 @@ body {
 }
 
 .animate-slide {
-  animation: 18s slide linear infinite;
+  animation: 15s slide linear infinite;
 }
 
 @keyframes slide {

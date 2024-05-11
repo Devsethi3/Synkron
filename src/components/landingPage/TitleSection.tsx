@@ -1,3 +1,4 @@
+import React from 'react';
 
 interface TitleSectionProps {
   title: string;
@@ -11,7 +12,7 @@ const TitleSection: React.FC<TitleSectionProps> = ({
   pill,
 }) => {
   return (
-    <>
+    <React.Fragment>
       <section
         className="flex
         flex-col
@@ -74,7 +75,7 @@ const TitleSection: React.FC<TitleSectionProps> = ({
           </h1>
         )}
       </section>
-    </>
+    </React.Fragment>
   );
 };
 
