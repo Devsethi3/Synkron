@@ -711,7 +711,7 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
               </span>
             </div>
           </div>
-          <div className="flex ">
+          <div className="flex items-center">
             <BannerUpload
               id={fileId}
               dirType={dirType}
@@ -723,28 +723,21 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
               transition-all
               rounded-md"
             >
-              {details.bannerUrl ? "Update Banner" : "Add Banner"}
+              {details.bannerUrl ? (
+                <Button>Update Banner</Button>
+              ) : (
+                <Button>Add Banner</Button>
+              )}
             </BannerUpload>
             {details.bannerUrl && (
               <Button
                 disabled={deletingBanner}
                 onClick={deleteBanner}
-                variant="ghost"
-                className="gap-2 hover:bg-background
-                flex
-                item-center
-                justify-center
-                mt-2
-                text-sm
-                text-muted-foreground
-                w-36
-                p-2
-                rounded-md"
+                variant="secondary"
+                className="mt-2 flex items-center gap-2"
               >
                 <XCircleIcon size={16} />
-                <span className="whitespace-nowrap font-normal">
-                  Remove Banner
-                </span>
+                Remove Banner
               </Button>
             )}
           </div>
