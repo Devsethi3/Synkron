@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,11 +16,10 @@ import {
 } from "@/components/ui/form";
 import Link from "next/link";
 import Image from "next/image";
-import Logo from "../../../../public/logo.png";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Loader } from "lucide-react";
 import { actionLoginUser } from "@/lib/server-actions/auth-actions";
+import { Loader } from "lucide-react";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -37,13 +36,23 @@ const LoginPage = () => {
   const onSubmit: SubmitHandler<z.infer<typeof FormSchema>> = async (
     formData
   ) => {
-    const { error } = await actionLoginUser(formData);
+    const { data, error } = await actionLoginUser(formData);
     if (error) {
-      setSubmitError("Invalid credentials"); // Set error message for invalid credentials
-      return; // Stop further execution
+      form.reset();
+      setSubmitError(error.message);
+    } else if (!data) {
+      // User does not exist or credentials are invalid
+      setSubmitError("Invalid email or password. Please try again.");
+    } else {
+      // User exists, redirect to dashboard
+      router.replace("/dashboard");
     }
-    router.replace("/dashboard");
   };
+
+  useEffect(() => {
+    // This code will only run on the client-side
+    console.log("Client-side code executed");
+  }, []);
 
   return (
     <Form {...form}>
@@ -62,7 +71,7 @@ const LoginPage = () => {
           justify-left
           items-center"
         >
-          <Image src={Logo} alt="synkron Logo" width={50} height={50} />
+          <Image src="/logo.png" alt="cypress Logo" width={50} height={50} />
           <span
             className="font-semibold
           dark:text-white text-4xl first-letter:ml-2"
@@ -110,10 +119,10 @@ const LoginPage = () => {
           disabled={isLoading}
         >
           Login
-          {!isLoading ? null : <Loader className="h-4 w-4 animate-spin ml-2" />}
+          {!isLoading ? null : <Loader className="w-4 h-4 animate-spin ml-2" />}
         </Button>
         <span className="self-container">
-          Don't have an account?{" "}
+          Dont have an account?{" "}
           <Link href="/signup" className="text-primary">
             Sign Up
           </Link>
