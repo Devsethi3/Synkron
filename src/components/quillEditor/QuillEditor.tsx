@@ -38,7 +38,6 @@ import BannerUpload from "../bannerUpload/BannerUpload";
 import { XCircleIcon } from "lucide-react";
 import { useSocket } from "@/lib/providers/socket-provider";
 import { useSupabaseUser } from "@/lib/providers/supabase-user-provider";
-import { dir } from "console";
 
 interface QuillEditorProps {
   dirDetails: File | Folder | workspace;
@@ -116,19 +115,7 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
       inTrash: dirDetails.inTrash,
       bannerUrl: dirDetails.bannerUrl,
     } as workspace | Folder | File;
-  }, [
-    state,
-    workspaceId,
-    dirType,
-    fileId,
-    folderId,
-    dirDetails.title,
-    dirDetails.bannerUrl,
-    dirDetails.createdAt,
-    dirDetails.data,
-    dirDetails.iconId,
-    dirDetails.inTrash,
-  ]);
+  }, [state, workspaceId, folderId]);
 
   const breadCrumbs = useMemo(() => {
     if (!pathname || !state.workspaces || !workspaceId) return;
@@ -366,7 +353,7 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
       }
     };
     fetchInformation();
-  }, [fileId, workspaceId, quill, dirType, dispatch, router]);
+  }, [fileId, workspaceId, quill, dirType]);
 
   useEffect(() => {
     if (quill === null || socket === null || !fileId || !localCursors.length)
@@ -463,18 +450,7 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
       quill.off("selection-change", selectionChangeHandler);
       if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
     };
-  }, [
-    quill,
-    socket,
-    fileId,
-    user,
-    details,
-    folderId,
-    workspaceId,
-    dispatch,
-    dirType,
-    saving,
-  ]);
+  }, [quill, socket, fileId, user, details, folderId, workspaceId, dispatch]);
 
   useEffect(() => {
     if (quill === null || socket === null) return;
@@ -594,16 +570,15 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
         )}
         <div
           className="flex 
-        flex-col-reverse 
+          flex-col
         sm:flex-row 
         sm:justify-between 
         justify-center 
         sm:items-center 
-        sm:p-2 
-        p-8"
+        sm:p-2 p-4"
         >
           <div>{breadCrumbs}</div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 p-4">
             <div className="flex items-center justify-center h-10">
               {collaborators?.map((collaborator) => (
                 <TooltipProvider key={collaborator.id}>
@@ -676,7 +651,7 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
             }
             fill
             className="w-full md:h-48
-            h-20
+            h-32
             object-cover"
             alt="Banner Image"
           />

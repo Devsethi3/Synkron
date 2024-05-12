@@ -99,7 +99,7 @@ const useSupabaseRealtime = () => {
     return () => {
       channel.unsubscribe();
     };
-  }, [supabase, state, selectedWorskpace, dispatch, router]);
+  }, [supabase, state, selectedWorskpace]);
 
   return null;
 };

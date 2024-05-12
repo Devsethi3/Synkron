@@ -7,7 +7,7 @@ import {
 import { Folder, workspace } from "@/lib/supabase/supabase.types";
 import { UploadBannerFormSchema } from "@/lib/types";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import React from "react";
+import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Label } from "../ui/label";
@@ -28,6 +28,9 @@ interface BannerUploadFormProps {
 const BannerUploadForm: React.FC<BannerUploadFormProps> = ({ dirType, id }) => {
   const supabase = createClientComponentClient();
   const { state, workspaceId, folderId, dispatch } = useAppState();
+
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+
   const {
     register,
     handleSubmit,
@@ -93,6 +96,14 @@ const BannerUploadForm: React.FC<BannerUploadFormProps> = ({ dirType, id }) => {
       }
     } catch (error) {}
   };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
   return (
     <form
       onSubmit={handleSubmit(onSubmitHandler)}
@@ -107,7 +118,15 @@ const BannerUploadForm: React.FC<BannerUploadFormProps> = ({ dirType, id }) => {
         accept="image/*"
         disabled={isUploading}
         {...register("banner", { required: "Banner Image is required" })}
+        onChange={handleFileChange}
       />
+      {imagePreview && (
+        <img
+          src={imagePreview}
+          alt="Image Preview"
+          style={{ maxWidth: "100%", maxHeight: "230px", objectFit: "cover" }}
+        />
+      )}
       <small className="text-red-600">
         {errors.banner?.message?.toString()}
       </small>
