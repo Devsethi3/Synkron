@@ -671,6 +671,8 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
         max-w-[800px] 
         flex 
         justify-between
+        lg:flex-row
+        flex-col
         items-center
          border-t
          pt-2
@@ -724,9 +726,9 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
               rounded-md"
             >
               {details.bannerUrl ? (
-                <Button>Update Banner</Button>
+                <Button size="sm">Update Banner</Button>
               ) : (
-                <Button>Add Banner</Button>
+                <Button size="sm">Add Banner</Button>
               )}
             </BannerUpload>
             {details.bannerUrl && (
@@ -734,6 +736,7 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
                 disabled={deletingBanner}
                 onClick={deleteBanner}
                 variant="secondary"
+                size="sm"
                 className="mt-2 flex items-center gap-2"
               >
                 <XCircleIcon size={16} />
