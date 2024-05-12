@@ -1,4 +1,5 @@
 "use client";
+
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -18,9 +19,8 @@ import Image from "next/image";
 import Logo from "../../../../public/logo.png";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { actionLoginUser } from "@/lib/server-actions/auth-actions";
 import { Loader } from "lucide-react";
+import { actionLoginUser } from "@/lib/server-actions/auth-actions";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -39,8 +39,8 @@ const LoginPage = () => {
   ) => {
     const { error } = await actionLoginUser(formData);
     if (error) {
-      form.reset();
-      setSubmitError(error.message);
+      setSubmitError("Invalid credentials"); // Set error message for invalid credentials
+      return; // Stop further execution
     }
     router.replace("/dashboard");
   };
@@ -113,7 +113,7 @@ const LoginPage = () => {
           {!isLoading ? null : <Loader className="h-4 w-4 animate-spin ml-2" />}
         </Button>
         <span className="self-container">
-          Dont have an account?{" "}
+          Don't have an account?{" "}
           <Link href="/signup" className="text-primary">
             Sign Up
           </Link>
