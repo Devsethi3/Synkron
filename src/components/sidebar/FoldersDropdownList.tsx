@@ -46,7 +46,7 @@ const FoldersDropdownList: React.FC<FoldersDropdownListProps> = ({
         },
       });
     }
-  }, [workspaceFolders, workspaceId]);
+  }, [workspaceFolders, workspaceId, dispatch, state.workspaces]);
   //state
 
   useEffect(() => {
@@ -54,7 +54,7 @@ const FoldersDropdownList: React.FC<FoldersDropdownListProps> = ({
       state.workspaces.find((workspace) => workspace.id === workspaceId)
         ?.folders || []
     );
-  }, [state]);
+  }, [state, workspaceId]);
 
   //add folder
   const addFolderHandler = async () => {

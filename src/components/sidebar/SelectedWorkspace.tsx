@@ -1,9 +1,9 @@
-'use client';
-import { workspace } from '@/lib/supabase/supabase.types';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import Image from 'next/image';
-import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+"use client";
+import { workspace } from "@/lib/supabase/supabase.types";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import Image from "next/image";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
 
 interface SelectedWorkspaceProps {
   workspace: workspace;
@@ -15,15 +15,15 @@ const SelectedWorkspace: React.FC<SelectedWorkspaceProps> = ({
   onClick,
 }) => {
   const supabase = createClientComponentClient();
-  const [workspaceLogo, setWorkspaceLogo] = useState('/logo.png');
+  const [workspaceLogo, setWorkspaceLogo] = useState("/logo.png");
   useEffect(() => {
     if (workspace.logo) {
       const path = supabase.storage
-        .from('workspace-logos')
+        .from("workspace-logos")
         .getPublicUrl(workspace.logo)?.data.publicUrl;
       setWorkspaceLogo(path);
     }
-  }, [workspace]);
+  }, [workspace, supabase.storage]);
   return (
     <Link
       href={`/dashboard/${workspace.id}`}

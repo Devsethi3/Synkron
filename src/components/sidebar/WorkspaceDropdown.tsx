@@ -1,10 +1,10 @@
-'use client';
-import { useAppState } from '@/lib/providers/state-provider';
-import { workspace } from '@/lib/supabase/supabase.types';
-import React, { useEffect, useState } from 'react';
-import SelectedWorkspace from './SelectedWorkspace';
-import CustomDialogTrigger from '../global/CustomDialogTrigger';
-import WorkspaceCreator from '../global/WorkspaceCreator';
+"use client";
+import { useAppState } from "@/lib/providers/state-provider";
+import { workspace } from "@/lib/supabase/supabase.types";
+import React, { useEffect, useState } from "react";
+import SelectedWorkspace from "./SelectedWorkspace";
+import CustomDialogTrigger from "../global/CustomDialogTrigger";
+import WorkspaceCreator from "../global/WorkspaceCreator";
 
 interface WorkspaceDropdownProps {
   privateWorkspaces: workspace[] | [];
@@ -26,7 +26,7 @@ const WorkspaceDropdown: React.FC<WorkspaceDropdownProps> = ({
   useEffect(() => {
     if (!state.workspaces.length) {
       dispatch({
-        type: 'SET_WORKSPACES',
+        type: "SET_WORKSPACES",
         payload: {
           workspaces: [
             ...privateWorkspaces,
@@ -36,7 +36,13 @@ const WorkspaceDropdown: React.FC<WorkspaceDropdownProps> = ({
         },
       });
     }
-  }, [privateWorkspaces, collaboratingWorkspaces, sharedWorkspaces]);
+  }, [
+    privateWorkspaces,
+    collaboratingWorkspaces,
+    sharedWorkspaces,
+    dispatch,
+    state.workspaces.length,
+  ]);
 
   const handleSelect = (option: workspace) => {
     setSelectedOption(option);
@@ -61,7 +67,7 @@ const WorkspaceDropdown: React.FC<WorkspaceDropdownProps> = ({
           {selectedOption ? (
             <SelectedWorkspace workspace={selectedOption} />
           ) : (
-            'Select a workspace'
+            "Select a workspace"
           )}
         </span>
       </div>

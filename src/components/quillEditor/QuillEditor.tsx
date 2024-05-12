@@ -119,10 +119,12 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
   }, [
     state,
     workspaceId,
+    dirType,
+    fileId,
     folderId,
+    dirDetails.title,
     dirDetails.bannerUrl,
     dirDetails.createdAt,
-    dirDetails.data,
     dirDetails.data,
     dirDetails.iconId,
     dirDetails.inTrash,
@@ -175,6 +177,8 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
       wrapper.append(editor);
       const Quill = (await import("quill")).default;
       const QuillCursors = (await import("quill-cursors")).default;
+
+      // @ts-ignore
       Quill.register("modules/cursors", QuillCursors);
       const q = new Quill(editor, {
         theme: "snow",

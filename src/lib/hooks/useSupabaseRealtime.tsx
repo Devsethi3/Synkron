@@ -1,9 +1,9 @@
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import React, { useEffect } from 'react';
-import { useAppState } from '../providers/state-provider';
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import React, { useEffect } from "react";
+import { useAppState } from "../providers/state-provider";
 
-import { File } from '../supabase/supabase.types';
-import { useRouter } from 'next/navigation';
+import { File } from "../supabase/supabase.types";
+import { useRouter } from "next/navigation";
 
 const useSupabaseRealtime = () => {
   const supabase = createClientComponentClient();
@@ -11,13 +11,13 @@ const useSupabaseRealtime = () => {
   const router = useRouter();
   useEffect(() => {
     const channel = supabase
-      .channel('db-changes')
+      .channel("db-changes")
       .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'files' },
+        "postgres_changes",
+        { event: "*", schema: "public", table: "files" },
         async (payload) => {
-          if (payload.eventType === 'INSERT') {
-            console.log('🟢 RECEIVED REAL TIME EVENT');
+          if (payload.eventType === "INSERT") {
+            console.log("🟢 RECEIVED REAL TIME EVENT");
             const {
               folder_id: folderId,
               workspace_id: workspaceId,
@@ -41,13 +41,13 @@ const useSupabaseRealtime = () => {
                 bannerUrl: payload.new.banner_url,
               };
               dispatch({
-                type: 'ADD_FILE',
+                type: "ADD_FILE",
                 payload: { file: newFile, folderId, workspaceId },
               });
             }
-          } else if (payload.eventType === 'DELETE') {
-            let workspaceId = '';
-            let folderId = '';
+          } else if (payload.eventType === "DELETE") {
+            let workspaceId = "";
+            let folderId = "";
             const fileExists = state.workspaces.some((workspace) =>
               workspace.folders.some((folder) =>
                 folder.files.some((file) => {
@@ -62,11 +62,11 @@ const useSupabaseRealtime = () => {
             if (fileExists && workspaceId && folderId) {
               router.replace(`/dashboard/${workspaceId}`);
               dispatch({
-                type: 'DELETE_FILE',
+                type: "DELETE_FILE",
                 payload: { fileId: payload.old.id, folderId, workspaceId },
               });
             }
-          } else if (payload.eventType === 'UPDATE') {
+          } else if (payload.eventType === "UPDATE") {
             const { folder_id: folderId, workspace_id: workspaceId } =
               payload.new;
             state.workspaces.some((workspace) =>
@@ -74,7 +74,7 @@ const useSupabaseRealtime = () => {
                 folder.files.some((file) => {
                   if (file.id === payload.new.id) {
                     dispatch({
-                      type: 'UPDATE_FILE',
+                      type: "UPDATE_FILE",
                       payload: {
                         workspaceId,
                         folderId,
@@ -99,7 +99,7 @@ const useSupabaseRealtime = () => {
     return () => {
       channel.unsubscribe();
     };
-  }, [supabase, state, selectedWorskpace]);
+  }, [supabase, state, selectedWorskpace, dispatch, router]);
 
   return null;
 };
