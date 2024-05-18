@@ -54,7 +54,7 @@ const Dropdown: React.FC<DropdownProps> = ({
     }
   }, [state, listType, workspaceId, id, title]);
 
-  //fileItitle
+  // FileItitle
 
   const fileTitle: string | undefined = useMemo(() => {
     if (listType === "file") {
