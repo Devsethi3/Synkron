@@ -68,7 +68,8 @@ const Dropdown: React.FC<DropdownProps> = ({
     }
   }, [state, listType, workspaceId, id, title]);
 
-  //Navigate the user to a different page
+  // Navigate the user to a different page
+
   const navigatatePage = (accordionId: string, type: string) => {
     if (type === "folder") {
       router.push(`/dashboard/${workspaceId}/${accordionId}`);
@@ -82,7 +83,8 @@ const Dropdown: React.FC<DropdownProps> = ({
     }
   };
 
-  //double click handler
+  // Double click handler
+  
   const handleDoubleClick = () => {
     setIsEditing(true);
   };
