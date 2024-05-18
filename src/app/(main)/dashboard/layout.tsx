@@ -1,4 +1,4 @@
-import { SubscriptionModalProvider } from "@/lib/providers/subscription-modal-provider";
+import { SubscriptionModalProvider } from "@/lib/providers/subscriptionModalProvider";
 import { getActiveProductsWithPrice } from "@/lib/supabase/queries";
 import React from "react";
 

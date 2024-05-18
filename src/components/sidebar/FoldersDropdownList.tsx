@@ -11,7 +11,7 @@ import { useToast } from "../ui/use-toast";
 import { Accordion } from "../ui/accordion";
 import Dropdown from "./Dropdown";
 import useSupabaseRealtime from "@/lib/hooks/useSupabaseRealtime";
-import { useSubscriptionModal } from "@/lib/providers/subscription-modal-provider";
+import { useSubscriptionModal } from "@/lib/providers/subscriptionModalProvider";
 
 interface FoldersDropdownListProps {
   workspaceFolders: Folder[];

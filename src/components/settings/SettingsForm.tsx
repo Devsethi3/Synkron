@@ -55,7 +55,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Alert, AlertDescription } from "../ui/alert";
 import LogoutButton from "../global/LogoutButton";
 import Link from "next/link";
-import { useSubscriptionModal } from "@/lib/providers/subscription-modal-provider";
+import { useSubscriptionModal } from "@/lib/providers/subscriptionModalProvider";
 import { postData } from "@/lib/utils";
 import SynkronProfileIcon from "../icons/SynkronProfileIcon";
 

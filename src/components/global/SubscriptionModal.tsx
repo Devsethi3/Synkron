@@ -1,5 +1,5 @@
 "use client";
-import { useSubscriptionModal } from "@/lib/providers/subscription-modal-provider";
+import { useSubscriptionModal } from "@/lib/providers/subscriptionModalProvider";
 import React, { useState } from "react";
 import {
   Dialog,
@@ -67,7 +67,8 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ products }) => {
           <DialogDescription>
             To access Pro features you need to have a paid plan.
           </DialogDescription>
-          {products.length
+
+          {/* {products.length
             ? products.map((product) => (
                 <div
                   className="
@@ -95,7 +96,23 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ products }) => {
                   ))}
                 </div>
               ))
-            : ""}
+            : ""} */}
+
+          <>
+            <div className="flex items-end gap-2">
+              <b className="text-3xl text-foreground">$ 12.99 /</b>
+              <small className="text-lg">month</small>
+            </div>
+            <Button
+              //  onClick={() => onClickContinue(price)}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <Loader className="h-4 w-4 animate-spin mr-2" />
+              ) : null}
+              Upgrade ✨
+            </Button>
+          </>
           {/* No Products Available */}
         </DialogContent>
       )}
