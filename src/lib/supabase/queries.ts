@@ -1,11 +1,11 @@
-'use server';
-import { validate } from 'uuid';
-import { files, folders, users, workspaces } from '../../../migrations/schema';
-import db from './db';
-import { File, Folder, Subscription, User, workspace } from './supabase.types';
-import { and, eq, ilike, notExists } from 'drizzle-orm';
-import { collaborators } from './schema';
-import { revalidatePath } from 'next/cache';
+"use server";
+import { validate } from "uuid";
+import { files, folders, users, workspaces } from "../../../migrations/schema";
+import db from "./db";
+import { File, Folder, Subscription, User, workspace } from "./supabase.types";
+import { and, eq, ilike, notExists } from "drizzle-orm";
+import { collaborators } from "./schema";
+import { revalidatePath } from "next/cache";
 
 export const createWorkspace = async (workspace: workspace) => {
   try {
@@ -13,7 +13,7 @@ export const createWorkspace = async (workspace: workspace) => {
     return { data: null, error: null };
   } catch (error) {
     console.log(error);
-    return { data: null, error: 'Error' };
+    return { data: null, error: "Error" };
   }
 };
 
@@ -40,7 +40,7 @@ export const getFolders = async (workspaceId: string) => {
   if (!isValid)
     return {
       data: null,
-      error: 'Error',
+      error: "Error",
     };
 
   try {
@@ -51,7 +51,7 @@ export const getFolders = async (workspaceId: string) => {
       .where(eq(folders.workspaceId, workspaceId));
     return { data: results, error: null };
   } catch (error) {
-    return { data: null, error: 'Error' };
+    return { data: null, error: "Error" };
   }
 };
 
@@ -60,7 +60,7 @@ export const getWorkspaceDetails = async (workspaceId: string) => {
   if (!isValid)
     return {
       data: [],
-      error: 'Error',
+      error: "Error",
     };
 
   try {
@@ -72,7 +72,7 @@ export const getWorkspaceDetails = async (workspaceId: string) => {
     return { data: response, error: null };
   } catch (error) {
     console.log(error);
-    return { data: [], error: 'Error' };
+    return { data: [], error: "Error" };
   }
 };
 
@@ -80,7 +80,7 @@ export const getFileDetails = async (fileId: string) => {
   const isValid = validate(fileId);
   if (!isValid) {
     data: [];
-    error: 'Error';
+    error: "Error";
   }
   try {
     const response = (await db
@@ -90,8 +90,8 @@ export const getFileDetails = async (fileId: string) => {
       .limit(1)) as File[];
     return { data: response, error: null };
   } catch (error) {
-    console.log('🔴Error', error);
-    return { data: [], error: 'Error' };
+    console.log("🔴Error", error);
+    return { data: [], error: "Error" };
   }
 };
 
@@ -109,7 +109,7 @@ export const getFolderDetails = async (folderId: string) => {
   const isValid = validate(folderId);
   if (!isValid) {
     data: [];
-    error: 'Error';
+    error: "Error";
   }
 
   try {
@@ -121,7 +121,7 @@ export const getFolderDetails = async (folderId: string) => {
 
     return { data: response, error: null };
   } catch (error) {
-    return { data: [], error: 'Error' };
+    return { data: [], error: "Error" };
   }
 };
 
@@ -198,7 +198,7 @@ export const getSharedWorkspaces = async (userId: string) => {
 
 export const getFiles = async (folderId: string) => {
   const isValid = validate(folderId);
-  if (!isValid) return { data: null, error: 'Error' };
+  if (!isValid) return { data: null, error: "Error" };
   try {
     const results = (await db
       .select()
@@ -208,7 +208,7 @@ export const getFiles = async (folderId: string) => {
     return { data: results, error: null };
   } catch (error) {
     console.log(error);
-    return { data: null, error: 'Error' };
+    return { data: null, error: "Error" };
   }
 };
 
@@ -276,7 +276,7 @@ export const createFolder = async (folder: Folder) => {
     return { data: null, error: null };
   } catch (error) {
     console.log(error);
-    return { data: null, error: 'Error' };
+    return { data: null, error: "Error" };
   }
 };
 
@@ -286,7 +286,7 @@ export const createFile = async (file: File) => {
     return { data: null, error: null };
   } catch (error) {
     console.log(error);
-    return { data: null, error: 'Error' };
+    return { data: null, error: "Error" };
   }
 };
 
@@ -299,7 +299,7 @@ export const updateFolder = async (
     return { data: null, error: null };
   } catch (error) {
     console.log(error);
-    return { data: null, error: 'Error' };
+    return { data: null, error: "Error" };
   }
 };
 
@@ -312,7 +312,7 @@ export const updateFile = async (file: Partial<File>, fileId: string) => {
     return { data: null, error: null };
   } catch (error) {
     console.log(error);
-    return { data: null, error: 'Error' };
+    return { data: null, error: "Error" };
   }
 };
 
@@ -329,7 +329,7 @@ export const updateWorkspace = async (
     return { data: null, error: null };
   } catch (error) {
     console.log(error);
-    return { data: null, error: 'Error' };
+    return { data: null, error: "Error" };
   }
 };
 

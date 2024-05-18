@@ -680,8 +680,8 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
          pb-[-1rem]
          lg:my-4"
         >
-          <div className="flex items-center gap-5">
-            <div className="text-[60px]">
+          <div className="flex items-center gap-3 lg:gap-5">
+            <div className="text-[55px] lg:text-[60px]">
               <EmojiPicker getValue={iconOnChange}>
                 <div
                   className="w-[100px]
@@ -702,9 +702,11 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
               <h2
                 className="
             text-muted-foreground
-            text-3xl
+            text-2xl
+            lg:text-3xl
             font-bold
             h-9
+            truncate
           "
               >
                 {details.title}
