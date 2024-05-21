@@ -18,8 +18,7 @@ const TitleSection: React.FC<TitleSectionProps> = ({
         flex-col
         gap-4
         justify-center
-        items-start
-        md:items-center
+        items-center
       "
       >
         <article
@@ -63,8 +62,8 @@ const TitleSection: React.FC<TitleSectionProps> = ({
           </>
         ) : (
           <h1
-            className=" text-left 
-            text-4xl
+            className=" text-center 
+            text-3xl
             sm:text-6xl
             sm:max-w-[850px]
             md:text-center

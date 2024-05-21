@@ -84,7 +84,7 @@ const Header = () => {
           <Image src={Logo} alt="Synkron Logo" width={25} height={25} />
           <span
             className="font-bold text-2xl uppercase
-          dark:text-white/80
+          dark:text-white/80 md:block hidden
         "
           >
             synkron
@@ -211,13 +211,14 @@ const Header = () => {
         <aside
           className="flex
           w-full
-          gap-8
+          gap-4
+          md:gap-8
           justify-end
           "
         >
           <ThemeSwitcher />
           <Link href="/login">
-            <Button className="text-sm hidden sm:block">Login</Button>
+            <Button className="text-sm">Login</Button>
           </Link>
           <Link href="/signup">
             <Button variant="btn-primary" className="text-sm whitespace-nowrap">

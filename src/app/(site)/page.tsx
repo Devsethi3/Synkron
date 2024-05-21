@@ -1,8 +1,9 @@
+"use client";
+
 import TitleSection from "@/components/landingPage/TitleSection";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Cal from "../../../public/cal.png";
-import { randomUUID } from "crypto";
 import { twMerge } from "tailwind-merge";
 import clsx from "clsx";
 import CustomCard from "@/components/landingPage/CustomCard";
@@ -10,14 +11,17 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { CardContent, CardDescription, CardTitle } from "@/components/ui/card";
 import Diamond from "../../../public/icons/diamond.svg";
 import CheckIcon from "../../../public/icons/check.svg";
-import Header from "@/components/landingPage/Header";
 import { CLIENTS, PRICING_CARDS, PRICING_PLANS, USERS } from "@/lib/constants";
+import Banner from "../../../public/appBanner.png";
+import { useRouter } from "next/navigation";
+import { randomUUID } from "crypto";
 
 const HomePage = () => {
+  const router = useRouter();
   return (
     <>
       {/* <Header /> */}
-      <div className="px-4 py-24 w-full min-h-screen">
+      <div className="px-4 py-14 lg:py-24 w-full min-h-screen container">
         <section className="flex items-center flex-col justify-center">
           <TitleSection
             pill="✨ Your Workspace, Perfected"
@@ -36,10 +40,11 @@ const HomePage = () => {
           "
           >
             <Button
+              onClick={() => router.push("/login")}
               className=" w-full
             rounded-[10px]
             p-6
-            text-xl
+            text-base lg:text-xl
             bg-background
             dark:text-white text-black hover:text-black dark:hover:text-white
             "
@@ -47,9 +52,29 @@ const HomePage = () => {
               Get Synkron Free
             </Button>
           </div>
-          <div className="mt-[-100px] -z-10 relative w-[1300px] h-[90vh]">
-            <Image src="/appBanner.png" fill objectFit="cover" alt="Application banner" />
-            <div className="bottom-0 top-[50%] bg-gradient-to-t dark:from-background left-0 right-0 absolute z-10"></div>
+          <div
+            className="mt-[90px]
+          sm:w-full
+          flex
+          justify-center
+          items-center
+          relative
+          shadow-[0px_-20px_60px_0px_#6b46c18d]
+          rounded-2xl
+        "
+          >
+            <Image src={Banner} alt="Application Banner" />
+            <div
+              className="bottom-0
+            top-[50%]
+            bg-gradient-to-t
+            dark:from-background
+            left-0
+            right-0
+            absolute
+            z-10
+          "
+            ></div>
           </div>
         </section>
         <section className="relative my-14">
