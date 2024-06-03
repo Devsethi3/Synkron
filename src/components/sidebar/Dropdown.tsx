@@ -121,7 +121,8 @@ const Dropdown: React.FC<DropdownProps> = ({
     }
   };
 
-  //onchanges
+  // onChangesEmoji
+  
   const onChangeEmoji = async (selectedEmoji: string) => {
     if (!workspaceId) return;
     if (listType === "folder") {
