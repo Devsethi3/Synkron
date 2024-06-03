@@ -1,6 +1,6 @@
 # Synkron: A Real-Time Notes App Like Notion
 
-Welcome to the Synkron repository! Synkron Notes is a cutting-edge SaaS platform designed to provide a powerful, collaborative, and private workspace for teams and individuals. Built with Next.js 14, Drizzle ORM, Socket.io, TypeScript, Supabase, PostgreSQL, and Shadcn UI, this app combines modern technologies to deliver an exceptional user experience. The app features real-time updates, custom email verification, a professional dashboard, and seamless integration with Stripe for payments.
+Welcome to the Synkron repository! Synkron Notes App is a cutting-edge SaaS platform designed to provide a powerful, collaborative, and private workspace for teams and individuals. Built with Next.js 14, Drizzle ORM, Socket.io, TypeScript, Supabase, PostgreSQL, and Shadcn UI, this app combines modern technologies to deliver an exceptional user experience. The app features real-time updates, custom email verification, a professional dashboard, and seamless integration with Stripe for payments.
 
 ## Demo
 
