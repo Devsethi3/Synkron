@@ -88,7 +88,8 @@ const Dropdown: React.FC<DropdownProps> = ({
   const handleDoubleClick = () => {
     setIsEditing(true);
   };
-  //blur
+  
+  // handle blur
 
   const handleBlur = async () => {
     if (!isEditing) return;
