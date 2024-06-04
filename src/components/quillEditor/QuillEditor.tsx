@@ -51,7 +51,7 @@ var TOOLBAR_OPTIONS = [
   [{ header: 1 }, { header: 2 }], // 
   [{ list: "ordered" }, { list: "bullet" }],
   [{ script: "sub" }, { script: "super" }], // 
-  [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+  [{ indent: "-1" }, { indent: "+1" }], // outdent/
   [{ direction: "rtl" }], // text direction
 
   [{ size: ["small", false, "large", "huge"] }], // custom dropdown
