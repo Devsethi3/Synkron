@@ -54,7 +54,7 @@ var TOOLBAR_OPTIONS = [
   [{ indent: "-1" }, { indent: "+1" }], 
   [{ direction: "rtl" }], // text direction
 
-  [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+  [{ size: ["small", false, "large", "huge"] }], // custom 
   [{ header: [1, 2, 3, 4, 5, 6, false] }],
 
   [{ color: [] }, { background: [] }], // dropdown with defaults from theme
