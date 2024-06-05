@@ -45,7 +45,7 @@ interface QuillEditorProps {
   dirType: "workspace" | "folder" | "file";
 }
 var TOOLBAR_OPTIONS = [
-  ["bold", "italic", "underline", "strike"], //
+  ["bold", "italic", "underline", "strike"],
   ["blockquote", "code-block"],
 
   [{ header: 1 }, { header: 2 }], // 
