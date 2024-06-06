@@ -61,7 +61,7 @@ var TOOLBAR_OPTIONS = [
   [{ font: [] }],
   [{ align: [] }],
 
-  ["clean"], // remove formatting button
+  ["clean"], // remove 
 ];
 
 const QuillEditor: React.FC<QuillEditorProps> = ({
