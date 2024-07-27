@@ -61,7 +61,7 @@ var TOOLBAR_OPTIONS = [
   [{ font: [] }],
   [{ align: [] }],
 
-  ["clean"], // remove 
+  ["clean"], //  
 ];
 
 const QuillEditor: React.FC<QuillEditorProps> = ({
