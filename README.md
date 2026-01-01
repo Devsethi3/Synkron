@@ -8,12 +8,6 @@ Check out the live demo of Synkron [here](https://synkron.vercel.app).
 
 ## Preview
 
-### 1. Landing Page
-
-![Landing Page](/public/project-showcase.png)
-
-### 2. User Dashboard
-
 ![User Dashboard](/public//appBanner.png)
 
 ## Features
